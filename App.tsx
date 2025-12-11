@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Star, MapPin, Phone, Mic, ArrowUpRight, Sparkles, CheckCircle2, User, Play, Pause, Quote, Lock } from 'lucide-react';
+import { Analytics } from "@vercel/analytics/react";
 import VoiceWidget from './components/VoiceWidget';
 import AdminPanel from './components/AdminPanel';
 import { useLiveApi } from './hooks/use-live-api';
@@ -423,6 +424,7 @@ export default function App() {
       
       {/* Admin Panel Overlay */}
       <AdminPanel isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
+      <Analytics />
     </div>
   );
 }
