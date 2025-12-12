@@ -1,21 +1,19 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Appointment, User as AppUser } from '../types';
+import { Appointment, User } from '../types';
 import { Database } from '../utils/database';
-import { supabase } from '../lib/supabase';
-import { User, Session } from '@supabase/supabase-js';
 
 interface AppContextType {
   bookings: Appointment[];
   addBooking: (booking: Omit<Appointment, 'id' | 'timestamp' | 'status'>) => void;
   knowledgeBase: string;
   updateKnowledgeBase: (text: string) => void;
-  login: (username: string, password: string) => Promise<{ error: any }>;
+  login: (username: string, password: string) => boolean;
   currentUser: User | null;
-  logout: () => Promise<void>;
+  logout: () => void;
   // Security methods
   requestVerification: () => string | null;
   verifyAuthCode: (code: string) => boolean;
-  updateSecuritySettings: (email: string, password?: string) => Promise<{ error: any }>;
+  updateSecuritySettings: (email: string, password?: string) => void;
 }
 
 const DEFAULT_KNOWLEDGE_BASE = `You are Amara, the vibrant Gen-Z receptionist at J-Beauty Studio in Lagos, Nigeria.
@@ -53,26 +51,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   });
 
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
 
   // Initialize DB on mount
   useEffect(() => {
     Database.init();
-
-    // Check active sessions and subscribe to auth changes
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setCurrentUser(session?.user ?? null);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setCurrentUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -97,39 +79,41 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setKnowledgeBase(text);
   };
 
-  const login = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
+  const login = (username: string, password: string): boolean => {
+    const user = Database.authenticate(username, password);
+    if (user) {
+      setCurrentUser(user);
+      return true;
+    }
+    return false;
   };
 
-  const logout = async () => {
-    await supabase.auth.signOut();
+  const logout = () => {
+    setCurrentUser(null);
   };
 
   const requestVerification = (): string | null => {
-    // For Supabase, we rely on session.
-    // Returning a dummy code to satisfy the demo UI flow.
-    return '123456';
+    if (!currentUser) return null;
+    return Database.requestVerificationCode(currentUser.id);
   };
 
   const verifyAuthCode = (code: string): boolean => {
-    return code === '123456';
+    if (!currentUser) return false;
+    return Database.verifyCode(currentUser.id, code);
   };
 
-  const updateSecuritySettings = async (email: string, password?: string) => {
-    const attributes: any = { email };
+  const updateSecuritySettings = (email: string, password?: string) => {
+    if (!currentUser) return;
+
+    const updates: Partial<User> = { email };
     if (password && password.trim() !== '') {
-      attributes.password = password;
+      updates.password = password;
     }
 
-    const { data, error } = await supabase.auth.updateUser(attributes);
-    if (data.user) {
-      setCurrentUser(data.user);
+    const updatedUser = Database.updateUser(currentUser.id, updates);
+    if (updatedUser) {
+      setCurrentUser(updatedUser);
     }
-    return { error };
   };
 
   return (

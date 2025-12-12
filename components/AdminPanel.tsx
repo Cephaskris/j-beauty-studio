@@ -40,35 +40,22 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
     // Sync info text when knowledge base changes or on open
     useEffect(() => {
         setInfoText(knowledgeBase);
-        if (isOpen && currentUser) {
-            setNewEmail(currentUser.email || '');
-        }
     }, [knowledgeBase, isOpen, currentUser]);
-
-    // Reset security state when tab changes
-    useEffect(() => {
-        setSecurityStep('idle');
-        setVerificationCode('');
-        setDisplayedCode(null);
-        setNewPassword('');
-        setSecurityMsg({ type: '', text: '' });
-        if (currentUser) setNewEmail(currentUser.email || '');
-    }, [activeTab, currentUser]);
 
     if (!isOpen) return null;
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         setLoginError('');
 
-        const { error } = await login(username, password);
-        if (error) {
-            setLoginError(error.message || 'Invalid login credentials.');
+        const success = login(username, password);
+        if (!success) {
+            setLoginError('Invalid credentials. Default: admin / admin123');
         }
     };
 
-    const handleLogout = async () => {
-        await logout();
+    const handleLogout = () => {
+        logout();
         setUsername('');
         setPassword('');
         setLoginError('');
@@ -103,18 +90,13 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
         }
     };
 
-    const handleUpdateSecurity = async (e: React.FormEvent) => {
+    const handleUpdateSecurity = (e: React.FormEvent) => {
         e.preventDefault();
-        const { error } = await updateSecuritySettings(newEmail, newPassword);
-
-        if (error) {
-            setSecurityMsg({ type: 'error', text: error.message || 'Failed to update profile.' });
-        } else {
-            setSecurityMsg({ type: 'success', text: 'Profile updated successfully!' });
-            setSecurityStep('idle');
-            setVerificationCode('');
-            setNewPassword('');
-        }
+        updateSecuritySettings(newEmail, newPassword);
+        setSecurityMsg({ type: 'success', text: 'Profile updated successfully!' });
+        setSecurityStep('idle');
+        setVerificationCode('');
+        setNewPassword('');
     };
 
     return (
@@ -151,7 +133,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
                                         type="text"
                                         value={username}
                                         onChange={e => setUsername(e.target.value)}
-                                        placeholder="your@email.com"
+                                        placeholder="e.g. admin"
                                         className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-stone-50"
                                     />
                                 </div>
@@ -184,7 +166,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
                         <div className="w-64 bg-stone-50 border-r border-stone-200 p-4 flex flex-col">
                             <div className="mb-8 px-4">
                                 <p className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-1">Logged in as</p>
-                                <p className="font-bold text-stone-900 truncate">{currentUser.email}</p>
+                                <p className="font-bold text-stone-900 truncate">{currentUser.username}</p>
                             </div>
 
                             <nav className="space-y-2 flex-1">
