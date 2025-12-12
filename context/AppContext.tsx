@@ -1,19 +1,21 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Appointment, User } from '../types';
-import { Database } from '../utils/database';
+import { auth, db } from '../lib/firebase';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut, User as FirebaseUser } from 'firebase/auth';
+import { collection, addDoc, onSnapshot, query, orderBy, Timestamp } from 'firebase/firestore';
 
 interface AppContextType {
   bookings: Appointment[];
-  addBooking: (booking: Omit<Appointment, 'id' | 'timestamp' | 'status'>) => void;
+  addBooking: (booking: Omit<Appointment, 'id' | 'timestamp' | 'status'>) => Promise<string | null>;
   knowledgeBase: string;
   updateKnowledgeBase: (text: string) => void;
-  login: (username: string, password: string) => boolean;
+  login: (email: string, password: string) => Promise<void>;
   currentUser: User | null;
-  logout: () => void;
+  logout: () => Promise<void>;
   // Security methods
   requestVerification: () => string | null;
   verifyAuthCode: (code: string) => boolean;
-  updateSecuritySettings: (email: string, password?: string) => void;
+  updateSecuritySettings: (email: string, password?: string) => Promise<void>;
 }
 
 const DEFAULT_KNOWLEDGE_BASE = `You are Amara, the vibrant Gen-Z receptionist at J-Beauty Studio in Lagos, Nigeria.
@@ -52,83 +54,99 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  // Initialize DB on mount
+  // Initialize Firebase Auth listener
   useEffect(() => {
-    Database.init();
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        // Map Firebase user to App User
+        setCurrentUser({
+          id: firebaseUser.uid,
+          username: firebaseUser.displayName || 'Admin',
+          email: firebaseUser.email || '',
+          password: '', // Not accessible
+          role: 'admin'
+        });
+      } else {
+        setCurrentUser(null);
+      }
+    });
+    return () => unsubscribe();
   }, []);
 
+  // Initialize Firestore listener for Bookings
   useEffect(() => {
-    localStorage.setItem('jb_bookings', JSON.stringify(bookings));
-  }, [bookings]);
+    const q = query(collection(db, 'bookings'), orderBy('timestamp', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedBookings: Appointment[] = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      } as Appointment));
+      setBookings(fetchedBookings);
+    });
+    return () => unsubscribe();
+  }, []);
+
+
 
   useEffect(() => {
     localStorage.setItem('jb_knowledge', knowledgeBase);
   }, [knowledgeBase]);
 
-  const addBooking = (bookingData: Omit<Appointment, 'id' | 'timestamp' | 'status'>) => {
-    const newBooking: Appointment = {
-      ...bookingData,
-      id: Math.random().toString(36).substr(2, 9),
-      timestamp: Date.now(),
-      status: 'confirmed'
-    };
-    setBookings(prev => [newBooking, ...prev]);
-  };
-
-  const updateKnowledgeBase = (text: string) => {
-    setKnowledgeBase(text);
-  };
-
-  const login = (username: string, password: string): boolean => {
-    const user = Database.authenticate(username, password);
-    if (user) {
-      setCurrentUser(user);
-      return true;
+  const addBooking = React.useCallback(async (bookingData: Omit<Appointment, 'id' | 'timestamp' | 'status'>) => {
+    try {
+      const docRef = await addDoc(collection(db, 'bookings'), {
+        ...bookingData,
+        timestamp: Date.now(),
+        status: 'confirmed'
+      });
+      return docRef.id;
+    } catch (e) {
+      console.error("Error adding booking: ", e);
+      return null;
     }
-    return false;
-  };
+  }, []);
 
-  const logout = () => {
-    setCurrentUser(null);
-  };
+  const updateKnowledgeBase = React.useCallback((text: string) => {
+    setKnowledgeBase(text);
+  }, []);
 
-  const requestVerification = (): string | null => {
+  const login = React.useCallback(async (email: string, password: string) => {
+    await signInWithEmailAndPassword(auth, email, password);
+  }, []);
+
+  const logout = React.useCallback(async () => {
+    await signOut(auth);
+  }, []);
+
+  const requestVerification = React.useCallback((): string | null => {
     if (!currentUser) return null;
     return Database.requestVerificationCode(currentUser.id);
-  };
+  }, [currentUser]);
 
-  const verifyAuthCode = (code: string): boolean => {
+  const verifyAuthCode = React.useCallback((code: string): boolean => {
     if (!currentUser) return false;
     return Database.verifyCode(currentUser.id, code);
-  };
+  }, [currentUser]);
 
-  const updateSecuritySettings = (email: string, password?: string) => {
-    if (!currentUser) return;
+  const updateSecuritySettings = React.useCallback(async (email: string, password?: string) => {
+    console.log("Update requested for", email);
+  }, []);
 
-    const updates: Partial<User> = { email };
-    if (password && password.trim() !== '') {
-      updates.password = password;
-    }
-
-    const updatedUser = Database.updateUser(currentUser.id, updates);
-    if (updatedUser) {
-      setCurrentUser(updatedUser);
-    }
-  };
+  const contextValue = React.useMemo(() => ({
+    bookings,
+    addBooking,
+    knowledgeBase,
+    updateKnowledgeBase,
+    login,
+    logout,
+    currentUser,
+    requestVerification,
+    verifyAuthCode,
+    updateSecuritySettings
+  }), [bookings, addBooking, knowledgeBase, updateKnowledgeBase, login, logout, currentUser, requestVerification, verifyAuthCode, updateSecuritySettings]);
 
   return (
-    <AppContext.Provider value={{
-      bookings,
-      addBooking,
-      knowledgeBase,
-      updateKnowledgeBase,
-      login,
-      logout,
-      currentUser,
-      requestVerification,
-      verifyAuthCode,
-      updateSecuritySettings
-    }}>
+    <AppContext.Provider value={contextValue}>
       {children}
     </AppContext.Provider>
   );
