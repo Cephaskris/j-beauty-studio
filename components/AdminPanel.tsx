@@ -192,8 +192,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
         setLoginError('');
     };
 
-    const handleSaveSettings = () => {
-        updateKnowledgeBase(infoText);
+    const handleSaveSettings = async () => {
+        await updateKnowledgeBase(infoText);
         alert('Knowledge Base updated! Please reconnect the Voice Agent to apply changes.');
     };
 
