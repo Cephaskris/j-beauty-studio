@@ -118,7 +118,7 @@ const HowToBookSection = ({ onOpenAgent }: { onOpenAgent: () => void }) => (
         <span className="text-amber-600 font-medium tracking-wider uppercase text-sm mb-2 block">Seamless Experience</span>
         <h2 className="text-4xl lg:text-5xl font-medium text-stone-900 mb-6 tracking-tight">Booking made effortless.</h2>
         <p className="text-stone-500 text-lg">
-          Forget the forms and phone tags. Our AI receptionist, Amara, handles your schedule instantly.
+          Forget the forms and phone tags. Our AI receptionist, Vera, handles your schedule instantly.
         </p>
       </div>
 
@@ -134,13 +134,13 @@ const HowToBookSection = ({ onOpenAgent }: { onOpenAgent: () => void }) => (
           },
           {
             icon: <User className="w-6 h-6 text-white" />,
-            title: "Speak with Amara",
+            title: "Speak with Vera",
             desc: "Tell her what you want. 'I need goddess braids on Friday at 2pm'."
           },
           {
             icon: <CheckCircle2 className="w-6 h-6 text-white" />,
             title: "Instant Confirmation",
-            desc: "Amara checks the calendar and books your slot immediately. No waiting."
+            desc: "Vera checks the calendar and books your slot immediately. No waiting."
           }
         ].map((step, i) => (
           <div key={i} className="flex flex-col items-center text-center">
@@ -162,7 +162,7 @@ const HowToBookSection = ({ onOpenAgent }: { onOpenAgent: () => void }) => (
           className="inline-flex items-center gap-3 px-8 py-4 bg-amber-500 text-white rounded-full font-bold hover:bg-amber-600 transition-all shadow-lg hover:shadow-amber-500/25 transform hover:-translate-y-1"
         >
           <Mic className="w-5 h-5" />
-          Try it now with Amara
+          Try it now with Vera
         </button>
       </div>
     </div>
@@ -187,7 +187,7 @@ const TestimonialsSection = () => (
       <div className="grid md:grid-cols-3 gap-8">
         {[
           { name: "Chioma Okeke", role: "Lekki Phase I", text: "I did my knotless braids here and it was so neat! The ambiance is top tier. Definitely my new spot." },
-          { name: "Zainab Ahmed", role: "Victoria Island", text: "The pedicure service is to die for. Amara (the voice bot) made booking so easy, I was shocked!" },
+          { name: "Zainab Ahmed", role: "Victoria Island", text: "The pedicure service is to die for. Vera (the voice bot) made booking so easy, I was shocked!" },
           { name: "Tolu Oniru", role: "Ikoyi", text: "Finally a salon that keeps to time. My makeup for my birthday shoot was flawless. 10/10 recommend." }
         ].map((t, i) => (
           <div key={i} className="p-8 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
@@ -304,14 +304,14 @@ export default function App() {
                 <div className="hidden lg:block absolute top-12 right-0 w-48 p-4 rounded-[2rem] bg-black/40 backdrop-blur-xl border border-white/10 text-center animate-in fade-in zoom-in duration-1000 delay-300">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-600 p-[2px] mx-auto mb-3">
                     <div className="w-full h-full rounded-full bg-stone-800 overflow-hidden">
-                      <img src="https://placehold.co/100x100/d97706/white?text=A" alt="Amara" className="w-full h-full object-cover" />
+                      <img src="https://placehold.co/100x100/d97706/white?text=V" alt="Vera" className="w-full h-full object-cover" />
                     </div>
                   </div>
                   <div className="inline-flex items-center gap-1 bg-white/10 px-3 py-1 rounded-full mb-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
                     <span className="text-[10px] text-white font-medium uppercase tracking-wider">Online</span>
                   </div>
-                  <p className="text-white text-sm font-medium">Amara</p>
+                  <p className="text-white text-sm font-medium">Vera</p>
                   <p className="text-white/50 text-xs mb-4">Your AI Assistant</p>
                 </div>
 
@@ -321,7 +321,7 @@ export default function App() {
 
                   <h3 className="text-3xl font-medium text-white mb-4">Voice Booking.</h3>
                   <p className="text-white/70 leading-relaxed mb-8 text-sm md:text-base">
-                    Skip the typing. Talk to Amara, our AI receptionist, to check availability and book your session instantly.
+                    Skip the typing. Talk to Vera, our AI receptionist, to check availability and book your session instantly.
                   </p>
 
                   <button
