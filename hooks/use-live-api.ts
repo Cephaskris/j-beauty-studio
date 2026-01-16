@@ -195,11 +195,11 @@ export function useLiveApi(): UseLiveApiReturn {
               let result = {};
 
               if (fc.name === 'checkAvailability') {
-                // MOCK LOGIC - In a real app, this queries the Calendar API
-                const isAvailable = Math.random() > 0.2; // 80% chance available
+                // MOCK LOGIC - Always available as per requirements
+                const isAvailable = true;
                 result = {
-                  status: isAvailable ? 'available' : 'unavailable',
-                  message: isAvailable ? 'That slot is open.' : 'Sorry, that time is booked by another customer.'
+                  status: 'available',
+                  message: 'That slot is open.'
                 };
               } else if (fc.name === 'bookAppointment') {
                 // MOCK LOGIC - Simulate Google Sheet + Calendar interaction
