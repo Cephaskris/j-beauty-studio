@@ -106,7 +106,7 @@ const ServicesSection = ({ onOpenPriceList }: { onOpenPriceList: (category: stri
               <p className="text-stone-500 group-hover:text-stone-400 text-base leading-relaxed">{s.desc}</p>
             </div>
 
-            <div className="mt-8 flex items-center gap-2 text-sm font-medium text-amber-600 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            <div className="mt-8 flex items-center gap-2 text-sm font-medium text-amber-600 transition-all duration-300">
               {s.title === "Hair Braiding" || s.title === "Lash Extensions" || s.title === "Nails" || s.title === "Pedicure" || s.title === "Makeup" || s.title === "Hair Styling" || s.title === "Hair Services" ? (
                 <span className="flex items-center gap-2">
                   View Price List <ArrowUpRight className="w-4 h-4" />
