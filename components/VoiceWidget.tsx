@@ -42,7 +42,7 @@ const VoiceWidget: React.FC<VoiceWidgetProps> = ({ isOpen, onClose, api }) => {
         <div className="flex-1 py-12 flex flex-col items-center justify-center bg-gradient-to-b from-white to-amber-50/50 min-h-[400px]">
 
           <div className="mb-8 text-center">
-            <h3 className="text-2xl font-bold text-stone-800 mb-1">Vera</h3>
+            <h3 className="text-2xl font-bold text-stone-800 mb-1">J Beauty Studio</h3>
             <p className="text-stone-500 text-sm">Customer Success @ J-Beauty</p>
             <p className="text-xs text-amber-600 font-medium mt-1">Lekki Phase I</p>
           </div>
@@ -61,7 +61,7 @@ const VoiceWidget: React.FC<VoiceWidgetProps> = ({ isOpen, onClose, api }) => {
           <div className="text-center px-8">
             <p className="text-stone-400 text-sm font-medium">
               {status === LiveStatus.CONNECTED
-                ? (isMuted ? "Vera is listening..." : "Talk to Vera...")
+                ? (isMuted ? "J Beauty Studio is listening..." : "Talk to J Beauty Studio...")
                 : status === LiveStatus.CONNECTING
                   ? "Connecting to J-Beauty..."
                   : "Disconnected"}

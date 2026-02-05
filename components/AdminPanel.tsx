@@ -359,7 +359,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
                                     <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-2">
                                         <div>
                                             <h2 className="text-xl md:text-2xl font-bold">Bookings Database</h2>
-                                            <p className="text-stone-500 text-xs md:text-sm">Real-time records from Vera Voice Agent.</p>
+                                            <p className="text-stone-500 text-xs md:text-sm">Real-time records from J Beauty Studio Voice Agent.</p>
                                         </div>
                                     </div>
 

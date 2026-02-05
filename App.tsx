@@ -5,6 +5,7 @@ import { useAppContext } from './context/AppContext';
 import VoiceWidget from './components/VoiceWidget';
 import AdminPanel from './components/AdminPanel';
 import { useLiveApi } from './hooks/use-live-api';
+import PriceList from './components/PriceList';
 
 // --- Sub-Components ---
 
@@ -63,7 +64,7 @@ const AboutSection = () => (
   </section>
 );
 
-const ServicesSection = () => (
+const ServicesSection = ({ onOpenPriceList }: { onOpenPriceList: (category: string) => void }) => (
   <section id="services" className="py-24 bg-stone-50">
     <div className="max-w-7xl mx-auto px-6 lg:px-8">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -84,9 +85,16 @@ const ServicesSection = () => (
           { title: "Nails", desc: "Gel polish, acrylics, and biab overlay designs." },
           { title: "Pedicure", desc: "Relaxing spa pedicure and foot treatment." },
           { title: "Makeup", desc: "Owambe glam, bridal, or soft natural beats." },
-          { title: "Hair Styling", desc: "Wig installation, silk press, and revamping." }
+          { title: "Hair Styling", desc: "Wig installation, silk press, and revamping." },
+          { title: "Hair Services", desc: "Professional hair washing and therapeutic hair treatments." }
         ].map((s, i) => (
-          <div key={i} className="group p-8 rounded-[2rem] bg-white hover:bg-black hover:text-white transition-all duration-300 border border-stone-100 hover:border-black hover:-translate-y-1 shadow-sm hover:shadow-2xl flex flex-col justify-between h-full">
+          <div
+            key={i}
+            onClick={() => {
+              if (s.title === "Hair Braiding" || s.title === "Lash Extensions" || s.title === "Nails" || s.title === "Pedicure" || s.title === "Makeup" || s.title === "Hair Styling" || s.title === "Hair Services") onOpenPriceList(s.title);
+            }}
+            className={`group p-8 rounded-[2rem] bg-white hover:bg-black hover:text-white transition-all duration-300 border border-stone-100 hover:border-black hover:-translate-y-1 shadow-sm hover:shadow-2xl flex flex-col justify-between h-full ${(s.title === "Hair Braiding" || s.title === "Lash Extensions" || s.title === "Nails" || s.title === "Pedicure" || s.title === "Makeup" || s.title === "Hair Styling" || s.title === "Hair Services") ? 'cursor-pointer' : ''}`}
+          >
             <div>
               <div className="flex justify-between items-start mb-6">
                 <div className="w-10 h-10 rounded-full bg-stone-100 text-stone-900 group-hover:bg-white/10 group-hover:text-white flex items-center justify-center font-serif font-bold transition-colors">
@@ -99,7 +107,13 @@ const ServicesSection = () => (
             </div>
 
             <div className="mt-8 flex items-center gap-2 text-sm font-medium text-amber-600 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-              Book Service <ArrowUpRight className="w-4 h-4" />
+              {s.title === "Hair Braiding" || s.title === "Lash Extensions" || s.title === "Nails" || s.title === "Pedicure" || s.title === "Makeup" || s.title === "Hair Styling" || s.title === "Hair Services" ? (
+                <span className="flex items-center gap-2">
+                  View Price List <ArrowUpRight className="w-4 h-4" />
+                </span>
+              ) : (
+                <>Book Service <ArrowUpRight className="w-4 h-4" /></>
+              )}
             </div>
           </div>
         ))}
@@ -116,39 +130,41 @@ const HowToBookSection = ({ onOpenAgent }: { onOpenAgent: () => void }) => (
     <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
       <div className="text-center max-w-2xl mx-auto mb-16">
         <span className="text-amber-600 font-medium tracking-wider uppercase text-sm mb-2 block">Seamless Experience</span>
-        <h2 className="text-4xl lg:text-5xl font-medium text-stone-900 mb-6 tracking-tight">Booking made effortless.</h2>
+        <h2 className="text-4xl lg:text-5xl font-medium text-stone-900 mb-6 tracking-tight">How to Book Your Appointment</h2>
         <p className="text-stone-500 text-lg">
-          Forget the forms and phone tags. Our AI receptionist, Vera, handles your schedule instantly.
+          Securing your glow is just a few steps away!
         </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-8 relative">
-        {/* Connector Line */}
-        <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-stone-100 -z-10"></div>
+      <div className="grid md:grid-cols-4 gap-8 relative">
+        {/* Connector Line - Hidden on mobile, adapted for 4 columns */}
+        <div className="hidden md:block absolute top-12 left-[12%] right-[12%] h-0.5 bg-stone-100 -z-10"></div>
 
         {[
           {
-            icon: <Mic className="w-6 h-6 text-white" />,
-            title: "Tap to Call",
-            desc: "Click the 'Free Call' button anywhere on the site to launch the voice agent."
+            icon: <Sparkles className="w-6 h-6 text-white" />,
+            title: "1. Choose Your Service",
+            desc: "Browse our service menu and select the treatment you’d like to book. Take note of the total price."
           },
           {
-            icon: <User className="w-6 h-6 text-white" />,
-            title: "Speak with Vera",
-            desc: "Tell her what you want. 'I need goddess braids on Friday at 2pm'."
+            icon: <Lock className="w-6 h-6 text-white" />,
+            title: "2. Make Your Deposit",
+            desc: "Secure your slot with a 50% deposit. Providus Bank • 9642252198 • J BEAUTY STUDIO."
+          },
+          {
+            icon: <Phone className="w-6 h-6 text-white" />, // Phone/Whatsapp icon metaphor
+            title: "3. Send Proof",
+            desc: "Send a screenshot of the transaction to our WhatsApp line: +234 704 100 8039."
           },
           {
             icon: <CheckCircle2 className="w-6 h-6 text-white" />,
-            title: "Instant Confirmation",
-            desc: "Vera checks the calendar and books your slot immediately. No waiting."
+            title: "4. Get Confirmation",
+            desc: "We will verify your deposit and send a confirmation message with your appointment details."
           }
         ].map((step, i) => (
           <div key={i} className="flex flex-col items-center text-center">
-            <div className="w-24 h-24 rounded-full bg-stone-900 flex items-center justify-center mb-6 shadow-xl relative ring-8 ring-white">
+            <div className="w-24 h-24 rounded-full bg-stone-900 flex items-center justify-center mb-6 shadow-xl shadow-stone-900/10 border-4 border-white relative z-0">
               {step.icon}
-              <div className="absolute top-0 right-0 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold text-sm border-2 border-white">
-                {i + 1}
-              </div>
             </div>
             <h3 className="text-xl font-bold text-stone-900 mb-3">{step.title}</h3>
             <p className="text-stone-500 leading-relaxed max-w-xs">{step.desc}</p>
@@ -162,7 +178,7 @@ const HowToBookSection = ({ onOpenAgent }: { onOpenAgent: () => void }) => (
           className="inline-flex items-center gap-3 px-8 py-4 bg-amber-500 text-white rounded-full font-bold hover:bg-amber-600 transition-all shadow-lg hover:shadow-amber-500/25 transform hover:-translate-y-1"
         >
           <Mic className="w-5 h-5" />
-          Try it now with Vera
+          Try it now with J Beauty Studio
         </button>
       </div>
     </div>
@@ -187,7 +203,7 @@ const TestimonialsSection = () => (
       <div className="grid md:grid-cols-3 gap-8">
         {[
           { name: "Chioma Okeke", role: "Lekki Phase I", text: "I did my knotless braids here and it was so neat! The ambiance is top tier. Definitely my new spot." },
-          { name: "Zainab Ahmed", role: "Victoria Island", text: "The pedicure service is to die for. Vera (the voice bot) made booking so easy, I was shocked!" },
+          { name: "Zainab Ahmed", role: "Victoria Island", text: "The pedicure service is to die for. J Beauty Studio (the voice bot) made booking so easy, I was shocked!" },
           { name: "Tolu Oniru", role: "Ikoyi", text: "Finally a salon that keeps to time. My makeup for my birthday shoot was flawless. 10/10 recommend." }
         ].map((t, i) => (
           <div key={i} className="p-8 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
@@ -214,6 +230,7 @@ const TestimonialsSection = () => (
 export default function App() {
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { logout } = useAppContext();
   const api = useLiveApi();
 
@@ -304,14 +321,14 @@ export default function App() {
                 <div className="hidden lg:block absolute top-12 right-0 w-48 p-4 rounded-[2rem] bg-black/40 backdrop-blur-xl border border-white/10 text-center animate-in fade-in zoom-in duration-1000 delay-300">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-600 p-[2px] mx-auto mb-3">
                     <div className="w-full h-full rounded-full bg-stone-800 overflow-hidden">
-                      <img src="https://placehold.co/100x100/d97706/white?text=V" alt="Vera" className="w-full h-full object-cover" />
+                      <img src="https://placehold.co/100x100/d97706/white?text=JB" alt="J Beauty Studio" className="w-full h-full object-cover" />
                     </div>
                   </div>
                   <div className="inline-flex items-center gap-1 bg-white/10 px-3 py-1 rounded-full mb-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
                     <span className="text-[10px] text-white font-medium uppercase tracking-wider">Online</span>
                   </div>
-                  <p className="text-white text-sm font-medium">Vera</p>
+                  <p className="text-white text-sm font-medium">J Beauty Studio</p>
                   <p className="text-white/50 text-xs mb-4">Your AI Assistant</p>
                 </div>
 
@@ -321,7 +338,7 @@ export default function App() {
 
                   <h3 className="text-3xl font-medium text-white mb-4">Voice Booking.</h3>
                   <p className="text-white/70 leading-relaxed mb-8 text-sm md:text-base">
-                    Skip the typing. Talk to Vera, our AI receptionist, to check availability and book your session instantly.
+                    Skip the typing. Talk to J Beauty Studio, our AI receptionist, to check availability and book your session instantly.
                   </p>
 
                   <button
@@ -350,7 +367,7 @@ export default function App() {
       <AboutSection />
 
       {/* 3. OUR SERVICES SECTION */}
-      <ServicesSection />
+      <ServicesSection onOpenPriceList={(category) => setSelectedCategory(category)} />
 
       {/* 4. HOW TO BOOK SECTION */}
       <HowToBookSection onOpenAgent={handleStartAgent} />
@@ -392,7 +409,7 @@ export default function App() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-amber-500" />
-                  0916 990 0888
+                  0704 100 8039
                 </li>
               </ul>
             </div>
@@ -432,6 +449,11 @@ export default function App() {
           setIsAdminOpen(false);
         }}
       />
+      {/* Price List Overlay */}
+      {selectedCategory && (
+        <PriceList category={selectedCategory} onClose={() => setSelectedCategory(null)} />
+      )}
+
       <Analytics />
     </div>
   );
