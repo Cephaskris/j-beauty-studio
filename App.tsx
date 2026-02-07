@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Star, MapPin, Phone, Mic, ArrowUpRight, Sparkles, CheckCircle2, User, Play, Pause, Quote, Lock } from 'lucide-react';
+import { Star, MapPin, Phone, Mic, ArrowUpRight, Sparkles, CheckCircle2, User, Play, Pause, Quote, Lock, Instagram } from 'lucide-react';
 import { Analytics } from "@vercel/analytics/react";
 import { useAppContext } from './context/AppContext';
 import VoiceWidget from './components/VoiceWidget';
@@ -225,6 +225,101 @@ const TestimonialsSection = () => (
   </section>
 );
 
+const GallerySection = () => (
+  <section id="gallery" className="py-24 bg-stone-50 overflow-hidden">
+    <div className="max-w-[1600px] mx-auto px-6 lg:px-8">
+      <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div>
+          <span className="text-amber-600 font-medium tracking-wider uppercase text-sm mb-2 block">Our Portfolio</span>
+          <h2 className="text-4xl lg:text-5xl font-medium text-stone-900 mb-4 tracking-tight">Real Results by J Beauty</h2>
+          <p className="text-stone-500 text-lg max-w-xl">
+            Explore our latest transformations. Each look is crafted to perfection.
+          </p>
+        </div>
+        <a
+          href="https://www.instagram.com/jbeautystudio2_/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-stone-900 text-white rounded-full font-medium hover:bg-amber-600 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+        >
+          <Instagram className="w-5 h-5" />
+          <span>View More on Instagram</span>
+        </a>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+
+        {/* Column 1 */}
+        <div className="lg:col-span-4 flex flex-col gap-8">
+          <div className="group relative rounded-[2.5rem] overflow-hidden aspect-[1080/1350] shadow-sm hover:shadow-2xl transition-all duration-500">
+            <img
+              src="/assets/j-beauty-studio-bob-wig-style.jpg"
+              alt="Bob Wig Style"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500"></div>
+          </div>
+          <div className="group relative rounded-[2.5rem] overflow-hidden aspect-[1080/1350] shadow-sm hover:shadow-2xl transition-all duration-500">
+            <img
+              src="/assets/j-beauty-studio-custom-nail-art.jpg"
+              alt="Custom Nail Art"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500"></div>
+          </div>
+        </div>
+
+        {/* Column 2 - Offset Top */}
+        <div className="lg:col-span-4 flex flex-col gap-8 lg:mt-24">
+          <div className="group relative rounded-[2.5rem] overflow-hidden aspect-[1080/1350] shadow-sm hover:shadow-2xl transition-all duration-500">
+            <img
+              src="/assets/j-beauty-studio-blonde-wig-installation.jpg"
+              alt="Blonde Wig Installation"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500"></div>
+          </div>
+          <div className="group relative rounded-[2.5rem] overflow-hidden aspect-[1080/1350] shadow-sm hover:shadow-2xl transition-all duration-500">
+            <img
+              src="/assets/j-beauty-studio-glam-makeup-ponytail.jpg"
+              alt="Glam Makeup"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500"></div>
+          </div>
+        </div>
+
+        {/* Column 3 */}
+        <div className="lg:col-span-4 flex flex-col gap-8">
+          <div className="group relative rounded-[2.5rem] overflow-hidden aspect-[1080/1350] shadow-sm hover:shadow-2xl transition-all duration-500">
+            <img
+              src="/assets/j-beauty-studio-knotless-braids-back-view.jpg"
+              alt="Knotless Braids"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500"></div>
+          </div>
+
+          {/* Decorative / CTA Block */}
+          <div className="hidden lg:flex relative rounded-[2.5rem] overflow-hidden aspect-[1080/1350] bg-stone-900 items-center justify-center p-12 text-center shadow-2xl">
+            <div className="relative z-10">
+              <Sparkles className="w-12 h-12 text-amber-500 mx-auto mb-6" />
+              <h3 className="text-3xl font-medium text-white mb-4">Your Turn to Glow</h3>
+              <p className="text-white/60 mb-8">Ready for your transformation? Book your appointment today.</p>
+              <div className="w-16 h-16 rounded-full bg-white text-stone-900 flex items-center justify-center mx-auto hover:scale-110 transition-transform cursor-pointer">
+                <ArrowUpRight className="w-6 h-6" />
+              </div>
+            </div>
+            {/* Abstract BG */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/20 rounded-full blur-[100px]"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+);
+
 // --- Main App Component ---
 
 export default function App() {
@@ -271,11 +366,10 @@ export default function App() {
             {/* Navbar */}
             <nav className="flex justify-between items-center mb-16 lg:mb-24">
               <div className="flex items-center gap-2">
-                <img
-                  src="https://placehold.co/180x60/transparent/fbbf24?text=J+Beauty+Studio&font=playfair-display"
-                  alt="J-Beauty Studio"
-                  className="h-10 w-auto object-contain drop-shadow-md"
-                />
+                <div className="flex flex-col items-center leading-none select-none">
+                  <span className="font-serif text-3xl italic text-amber-400 tracking-wide font-medium">J Beauty</span>
+                  <span className="font-sans text-[0.65rem] tracking-[0.3em] text-amber-500 font-bold uppercase mt-1">Studio</span>
+                </div>
               </div>
 
               <div className="hidden md:flex items-center gap-8 text-sm font-medium text-white/90">
@@ -285,13 +379,13 @@ export default function App() {
                 <a href="#how-to-book" className="hover:text-amber-400 transition-colors">How to Book</a>
               </div>
 
-              <button
-                onClick={handleStartAgent}
+              <a
+                href="#services"
                 className="group flex items-center gap-2 px-6 py-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-md text-white text-sm font-medium hover:bg-white hover:text-stone-900 transition-all duration-300"
               >
                 <span>Book Now</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:rotate-45 transition-transform" />
-              </button>
+              </a>
             </nav>
 
             {/* Hero Main Content */}
@@ -372,6 +466,9 @@ export default function App() {
       {/* 4. HOW TO BOOK SECTION */}
       <HowToBookSection onOpenAgent={handleStartAgent} />
 
+      {/* 5. GALLERY SECTION */}
+      <GallerySection />
+
       {/* 5. TESTIMONIALS SECTION */}
       <TestimonialsSection />
 
@@ -380,11 +477,10 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-1 md:col-span-2">
-              <img
-                src="https://placehold.co/180x60/transparent/fbbf24?text=J+Beauty+Studio&font=playfair-display"
-                alt="J-Beauty Studio"
-                className="h-10 w-auto object-contain mb-6"
-              />
+              <div className="flex flex-col items-center leading-none select-none items-start mb-6">
+                <span className="font-serif text-3xl italic text-amber-500 tracking-wide font-medium">J Beauty</span>
+                <span className="font-sans text-[0.65rem] tracking-[0.3em] text-amber-600 font-bold uppercase mt-1">Studio</span>
+              </div>
               <p className="text-white/50 text-sm leading-relaxed max-w-sm">
                 The ultimate beauty destination in Lekki. Merging technology with luxury to provide seamless bookings and exceptional service.
               </p>
