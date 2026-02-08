@@ -512,7 +512,11 @@ export default function App() {
           </div>
 
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-white/40 text-xs">© 2024 J-Beauty Studio. All rights reserved.</p>
+            <div className="flex flex-col md:flex-row gap-2 md:gap-4 items-center text-white/40 text-xs text-center md:text-left">
+              <p>© 2024 J-Beauty Studio. All rights reserved.</p>
+              <span className="hidden md:block text-white/20">|</span>
+              <p>Designed By <a href="https://primbeav.com.ng" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 transition-colors">Primbeav Services</a></p>
+            </div>
             <div className="flex items-center gap-6">
               <button
                 onClick={() => setIsAdminOpen(true)}
