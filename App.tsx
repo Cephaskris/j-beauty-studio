@@ -86,14 +86,17 @@ const ServicesSection = ({ onOpenPriceList }: { onOpenPriceList: (category: stri
           { title: "Pedicure", desc: "Relaxing spa pedicure and foot treatment." },
           { title: "Makeup", desc: "Owambe glam, bridal, or soft natural beats." },
           { title: "Hair Styling", desc: "Wig installation, silk press, and revamping." },
-          { title: "Hair Services", desc: "Professional hair washing and therapeutic hair treatments." }
-        ].map((s, i) => (
+          { title: "Hair Services", desc: "Professional hair washing and therapeutic hair treatments." },
+          { title: "Tattoo & Microblading", desc: "Premium home service tattoos and microblading ombre services." },
+          { title: "Natural Nails Services", desc: "Strengthening, nail art, removal, and natural nail care treatments." },
+          { title: "Home Services", desc: "Premium beauty services delivered to your doorstep in Lagos." }
+        ].map((s, i) => {
+          const hasPriceList = ["Hair Braiding","Lash Extensions","Nails","Pedicure","Makeup","Hair Styling","Hair Services","Tattoo & Microblading","Natural Nails Services","Home Services"].includes(s.title);
+          return (
           <div
             key={i}
-            onClick={() => {
-              if (s.title === "Hair Braiding" || s.title === "Lash Extensions" || s.title === "Nails" || s.title === "Pedicure" || s.title === "Makeup" || s.title === "Hair Styling" || s.title === "Hair Services") onOpenPriceList(s.title);
-            }}
-            className={`group p-8 rounded-[2rem] bg-white hover:bg-black hover:text-white transition-all duration-300 border border-stone-100 hover:border-black hover:-translate-y-1 shadow-sm hover:shadow-2xl flex flex-col justify-between h-full ${(s.title === "Hair Braiding" || s.title === "Lash Extensions" || s.title === "Nails" || s.title === "Pedicure" || s.title === "Makeup" || s.title === "Hair Styling" || s.title === "Hair Services") ? 'cursor-pointer' : ''}`}
+            onClick={() => { if (hasPriceList) onOpenPriceList(s.title); }}
+            className={`group p-8 rounded-[2rem] bg-white hover:bg-black hover:text-white transition-all duration-300 border border-stone-100 hover:border-black hover:-translate-y-1 shadow-sm hover:shadow-2xl flex flex-col justify-between h-full ${hasPriceList ? 'cursor-pointer' : ''}`}
           >
             <div>
               <div className="flex justify-between items-start mb-6">
@@ -107,7 +110,7 @@ const ServicesSection = ({ onOpenPriceList }: { onOpenPriceList: (category: stri
             </div>
 
             <div className="mt-8 flex items-center gap-2 text-sm font-medium text-amber-600 transition-all duration-300">
-              {s.title === "Hair Braiding" || s.title === "Lash Extensions" || s.title === "Nails" || s.title === "Pedicure" || s.title === "Makeup" || s.title === "Hair Styling" || s.title === "Hair Services" ? (
+              {hasPriceList ? (
                 <span className="flex items-center gap-2">
                   View Price List <ArrowUpRight className="w-4 h-4" />
                 </span>
@@ -116,7 +119,8 @@ const ServicesSection = ({ onOpenPriceList }: { onOpenPriceList: (category: stri
               )}
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>
