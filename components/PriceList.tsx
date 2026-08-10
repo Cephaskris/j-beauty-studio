@@ -261,7 +261,7 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
             title: "Home Services Price List",
             items: [
                 { name: "MAKE UP SERVICES:", isHeader: true },
-                { name: "Mainland", price: "5,500,000" },
+                { name: "Mainland", price: "500,000" },
                 { name: "Chevron and Ajah", price: "350,000" },
                 { name: "Ikoyi", price: "250,000" },
                 { name: "Lekki", price: "200,000" },
