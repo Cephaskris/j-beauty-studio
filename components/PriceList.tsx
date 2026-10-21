@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ArrowLeft, MessageCircle } from 'lucide-react';
+import BookingModal, { BookingServiceData } from './BookingModal';
 
 interface PriceListProps {
     onClose: () => void;
@@ -12,27 +13,27 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
             title: "Hair Braiding Price List",
             items: [
                 { name: "Boho Braids (With Curls)", price: "180,000", desc: "5-6 hours" },
-                { name: "Goddess Braids", price: "150,000" },
+                { name: "Goddess Braids", price: "150,000", desc: "5 hours" },
                 { name: "Knotless B. Braids/ Twist small", price: "130,000", desc: "5 hours" },
                 { name: "Medium", price: "120,000", desc: "4 hours" },
                 { name: "Large", price: "100,000", desc: "3-4 hours" },
                 { name: "Traditional Box Braids", price: "120,000", desc: "4-5 hours" },
                 { name: "Lemonade Braids", price: "120,000", desc: "4-5 hours" },
                 { name: "Ghana Braids", price: "80,000", desc: "4 hours" },
-                { name: "Stitch Braids", price: "80,000" },
-                { name: "Micro Braids", price: "60,000" },
+                { name: "Stitch Braids", price: "80,000", desc: "3-4 hours (Actual time depends on hairstyle)" },
+                { name: "Micro Braids", price: "60,000", desc: "4-5 hours" },
                 { name: "Corn Rows Basic Braids", price: "60,000", desc: "3-4 hours" },
-                { name: "Designs", price: "70,000" },
-                { name: "Zigzag", price: "50,000" },
-                { name: "Butterfly locs", price: "40,000" },
-                { name: "Braids Touch-up", price: "35,000" },
+                { name: "Designs", price: "70,000", desc: "3-4 hours" },
+                { name: "Zigzag", price: "50,000", desc: "2-3 hours" },
+                { name: "Butterfly locs", price: "40,000", desc: "3-4 hours" },
+                { name: "Braids Touch-up", price: "35,000", desc: "2 hours" },
                 { name: "Kids Braids", price: "35,000", desc: "2 hours" },
                 { name: "Passion Twist", price: "40,000", desc: "4-5 hours" },
-                { name: "Faux Locs", price: "40,000" },
+                { name: "Faux Locs", price: "40,000", desc: "3 hours" },
                 { name: "Ghana Weaving Braids", price: "50,000", desc: "4 hours" },
                 { name: "Flat Twist Braids", price: "30,000", desc: "3 hours" },
-                { name: "Quick Weave Braids", price: "35,000" },
-                { name: "Natural Hair Weave", price: "15,000", desc: "20 mins" },
+                { name: "Quick Weave Braids", price: "35,000", desc: "2-3 hours" },
+                { name: "Natural Hair Weave", price: "15,000", desc: "45-60 mins" },
             ]
         },
         "Lash Extensions": {
@@ -42,13 +43,13 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                 { name: "Mega volume lash set", price: "70,000", desc: "3 hours" },
                 { name: "Volume lash set", price: "60,000", desc: "2 hrs:40 mins" },
                 { name: "Hybrid lash set", price: "50,000", desc: "2 hours" },
-                { name: "Wet look set", price: "50,000" },
-                { name: "Wispy lash set", price: "70,000" },
+                { name: "Wet look set", price: "50,000", desc: "3 hours" },
+                { name: "Wispy lash set", price: "70,000", desc: "2½ hours" },
                 { name: "Classic lash set", price: "40,000", desc: "90 mins" },
-                { name: "Colored lash extensions", price: "45,000" },
+                { name: "Colored lash extensions", price: "45,000", desc: "2 hours" },
                 { name: "Customized signature lash", price: "80,000", desc: "3 hours" },
                 { name: "Customized signature lash (with bottom lash)", price: "100,000", desc: "3 hours" },
-                { name: "Foreign Fill (From Another Tech)", price: "30,000" },
+                { name: "Foreign Fill (From Another Tech)", price: "30,000", desc: "60-90 mins" },
                 { name: "Lash Fill (3weeks)", price: "30,000", desc: "60-90 mins" },
                 { name: "Lash Fill (2weeks)", price: "25,000", desc: "60-90 mins" },
                 { name: "Lash fill (1week)", price: "25,000", desc: "60-90 mins" },
@@ -58,9 +59,9 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                 { name: "ADDITIONAL EXTRA CHARGE FROM (8PM TO 6AM)", price: "20,000" },
                 { name: "--EYEBROWS SERVICES--", isHeader: true },
                 { name: "-OMBRÉ BROWS-", isHeader: true },
-                { name: "Precise. Polished. Elegant", price: "80,000" },
+                { name: "Precise. Polished. Elegant", price: "80,000", desc: "3 hours" },
                 { name: "-SOFT OMBRÉ BROWS-", isHeader: true },
-                { name: "Natural. Sculpted. Refined", price: "150,000" },
+                { name: "Natural. Sculpted. Refined", price: "150,000", desc: "3-4 hours" },
             ]
         },
         "Nails": {
@@ -71,22 +72,22 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                 { name: "Acrylic Medium", price: "50,000", desc: "3 hours" },
                 { name: "Acrylic Long", price: "70,000", desc: "3 hours" },
                 { name: "Acrylic long with design", price: "90,000", desc: "3 hours" },
-                { name: "Acrylic fill in", price: "30,000" },
-                { name: "Colored", price: "60,000" },
-                { name: "Ombré acrylic", price: "50,000" },
+                { name: "Acrylic fill in", price: "30,000", desc: "1-2 hours" },
+                { name: "Colored", price: "60,000", desc: "60-90 mins" },
+                { name: "Ombré acrylic", price: "50,000", desc: "2 hours" },
                 { name: "Acrylic on natural nails", price: "30,000", desc: "3 hours" },
 
                 { name: "GEL SERVICES:", isHeader: true },
                 { name: "Gel full ( With extension)", price: "30,000", desc: "40-60 mins" },
-                { name: "Gel Polish change", price: "15,000" },
-                { name: "Gel Overlay (on natural nails)", price: "25,000" },
+                { name: "Gel Polish change", price: "15,000", desc: "45-60 mins" },
+                { name: "Gel Overlay (on natural nails)", price: "25,000", desc: "30-40 mins" },
                 { name: "Gel Polish manicure", price: "20,000", desc: "30 mins" },
                 { name: "Gel-X (Soft Gel Extension)", price: "30,000", desc: "2 hours" },
 
                 { name: "DIP POWDER NAILS SERVICES:", isHeader: true },
-                { name: "Dip powder on natural nails", price: "30,000" },
-                { name: "Dip powder with tips", price: "40,000" },
-                { name: "Dip nail removal", price: "10,000" },
+                { name: "Dip powder on natural nails", price: "30,000", desc: "1-2 hours" },
+                { name: "Dip powder with tips", price: "40,000", desc: "2-2½ hours" },
+                { name: "Dip nail removal", price: "10,000", desc: "30 mins" },
 
                 { name: "BIAB NAILS SERVICES:", isHeader: true },
                 { name: "Biab on natural nails", price: "25,000", desc: "2 hours" },
@@ -98,25 +99,25 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
             title: "Pedicure Price List",
             items: [
                 { name: "Detox pedicure (charcoal or herbal soak)", price: "50,000", desc: "75 mins" },
-                { name: "Athlete pedicure", price: "50,000" },
-                { name: "Callous treatment pedicure", price: "45,000" },
+                { name: "Athlete pedicure", price: "50,000", desc: "45-60 mins" },
+                { name: "Callous treatment pedicure", price: "45,000", desc: "90 mins" },
                 { name: "Men's Pedicure", price: "45,000", desc: "60 mins" },
-                { name: "Tumeric pedicure", price: "50,000" },
+                { name: "Tumeric pedicure", price: "50,000", desc: "60 mins" },
                 { name: "Dry pedicure (Waterless)", price: "30,000", desc: "90 mins" },
                 { name: "Jelly pedicure", price: "45,000", desc: "60 mins" },
                 { name: "Deluxe pedicure", price: "45,000", desc: "90 mins" },
-                { name: "Hotstone pedicure", price: "40,000" },
+                { name: "Hotstone pedicure", price: "40,000", desc: "60-90 mins" },
                 { name: "Paraffin Wax pedicure", price: "80,000", desc: "90 mins" },
-                { name: "Gel pedicure", price: "40,000" },
+                { name: "Gel pedicure", price: "40,000", desc: "60 mins" },
                 { name: "Spa pedicure", price: "40,000", desc: "90 mins" },
                 { name: "Basic pedicure", price: "30,000", desc: "60 mins" },
                 { name: "Kids pedicure", price: "25,000", desc: "35 mins" },
-                { name: "Ingrown toenails care (Non-Medical)", price: "35,000" },
+                { name: "Ingrown toenails care (Non-Medical)", price: "35,000", desc: "90 mins" },
                 { name: "PEDICURE ADD-ON (NAIL SPECIFIC)", isHeader: true },
-                { name: "Full Set Toes (Acrylic)", price: "25,000" },
-                { name: "Gel Polish change", price: "20,000" },
-                { name: "Acrylic Big Toes", price: "10,000" },
-                { name: "Toe Polish Change", price: "15,000" },
+                { name: "Full Set Toes (Acrylic)", price: "25,000", desc: "2 hours" },
+                { name: "Gel Polish change", price: "20,000", desc: "40-60 mins" },
+                { name: "Acrylic Big Toes", price: "10,000", desc: "20-30 mins" },
+                { name: "Toe Polish Change", price: "15,000", desc: "30 mins" },
                 { name: "ADDITIONAL EXTRA CHARGE FROM (8PM TO 6AM)", price: "20,000" },
             ]
         },
@@ -124,29 +125,29 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
             title: "Makeup Price List",
             items: [
                 { name: "Soft glam", price: "70,000", desc: "90 mins" },
-                { name: "Natural glam", price: "70,000" },
+                { name: "Natural glam", price: "70,000", desc: "90 mins" },
                 { name: "Full glam", price: "150,000", desc: "2-3 hours" },
-                { name: "Smokey eye look", price: "100,000" },
+                { name: "Smokey eye look", price: "100,000", desc: "3 hours" },
                 { name: "Bridal makeup (Trad + Wedding day)", price: "350,000", desc: "2-3 hours" },
-                { name: "Travel onsite makeup Lagos", price: "1,000,000" },
-                { name: "Outside Lagos", price: "1,500,000" },
-                { name: "Bridesmaids/Bridal Party Makeup", price: "500,000" },
-                { name: "Prom/Graduation glam", price: "300,000" },
+                { name: "Travel onsite makeup Lagos", price: "1,000,000", desc: "Depends on scheduled appointment" },
+                { name: "Outside Lagos", price: "1,500,000", desc: "Depends on scheduled appointment" },
+                { name: "Bridesmaids/Bridal Party Makeup", price: "500,000", desc: "3 hours" },
+                { name: "Prom/Graduation glam", price: "300,000", desc: "2 hours" },
                 { name: "Photo Shoot makeup", price: "300,000", desc: "2 hours" },
                 { name: "Bridal makeup island", price: "1,000,000", desc: "2-3 hours" },
                 { name: "Bridal makeup mainland", price: "1,200,000", desc: "2-3 hours" },
                 { name: "Bridal makeup outside Lagos", price: "2,000,000", desc: "2-3 hours" },
-                { name: "Bridal makeup Trial (Onsite)", price: "1,000,000" },
-                { name: "Bridal makeup Trial (Travel)", price: "2,000,000" },
+                { name: "Bridal makeup Trial (Onsite)", price: "1,000,000", desc: "2-3 hours" },
+                { name: "Bridal makeup Trial (Travel)", price: "2,000,000", desc: "2-3 hours" },
                 { name: "Birthday glam", price: "250,000", desc: "2 hours" },
                 { name: "Evening/event glam", price: "300,000", desc: "1-2 hours" },
-                { name: "Colorful Eyeshadow Glam", price: "80,000" },
-                { name: "Makeup for men", price: "70,000" },
-                { name: "Dewy finished glam", price: "100,000" },
-                { name: "Bold/Dramatic Glam", price: "120,000" },
-                { name: "Matte finish glam", price: "100,000" },
+                { name: "Colorful Eyeshadow Glam", price: "80,000", desc: "2-3 hours" },
+                { name: "Makeup for men", price: "70,000", desc: "2 hours" },
+                { name: "Dewy finished glam", price: "100,000", desc: "2-3 hours" },
+                { name: "Bold/Dramatic Glam", price: "120,000", desc: "3-4 hours" },
+                { name: "Matte finish glam", price: "100,000", desc: "2-3 hours" },
                 { name: "Touch up services", price: "40,000", desc: "30 mins" },
-                { name: "Lashes Add-ons", price: "25,000" },
+                { name: "Lashes Add-ons", price: "25,000", desc: "10-20 mins" },
                 { name: "Additional Makeup Extra charge from (8pm to 6am)", price: "20,000" },
             ]
         },
@@ -163,37 +164,37 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                 { name: "Frontal Sew In", price: "40,000", desc: "2-3 hours" },
                 { name: "Hair Wigging", price: "35,000", desc: "90 mins" },
                 { name: "Glueless Wig Install", price: "35,000", desc: "60-90 mins" },
-                { name: "Clip In Installation", price: "40,000" },
+                { name: "Clip In Installation", price: "40,000", desc: "60-90 mins" },
                 { name: "Closure Sew In", price: "40,000", desc: "2 hours" },
                 { name: "Leave Out Sew In", price: "40,000", desc: "40-60 mins" },
-                { name: "Wig Revamp", price: "20,000" },
+                { name: "Wig Revamp", price: "20,000", desc: "3-4 days" },
                 { name: "Wig Customization", price: "17,000", desc: "40-60 mins" },
-                { name: "Wig Styling", price: "20,000" },
+                { name: "Wig Styling", price: "20,000", desc: "30 mins" },
                 { name: "Hair straightening", price: "20,000", desc: "30 mins" },
                 { name: "Hair curly and styling", price: "25,000", desc: "30 mins" },
-                { name: "Hair Extension Removal", price: "15,000" },
+                { name: "Hair Extension Removal", price: "15,000", desc: "30 mins" },
                 { name: "Hair curly", price: "20,000", desc: "30 mins" },
             ]
         },
         "Hair Services": {
             title: "Hair Maintenance Price List",
             items: [
-                { name: "Dread relook & twist", price: "50,000" },
-                { name: "Braids maintenance ( moisturizing, oiling)", price: "25,000" },
-                { name: "Relaxer Touch- up", price: "15,000" },
-                { name: "Leave-in treatments", price: "20,000" },
+                { name: "Dread relook & twist", price: "50,000", desc: "4 hours" },
+                { name: "Braids maintenance ( moisturizing, oiling)", price: "25,000", desc: "1-1:30 hours" },
+                { name: "Relaxer Touch- up", price: "15,000", desc: "40 mins" },
+                { name: "Leave-in treatments", price: "20,000", desc: "1 hour" },
                 { name: "Hair loosening ( Braids)", price: "15,000", desc: "30-45 mins" },
-                { name: "Hair Wash & styling", price: "20,000" },
-                { name: "Hair streaming", price: "20,000" },
-                { name: "Deep conditioning", price: "15,000" },
-                { name: "Scalp Detox", price: "20,000" },
-                { name: "Hair Trim", price: "20,000" },
-                { name: "Hair Detangling", price: "20,000" },
-                { name: "Natural Hair Stretching", price: "15,000" },
-                { name: "Natural Hair Washing", price: "7,000" },
-                { name: "Blow Dry", price: "5,000" },
-                { name: "Scalp massage", price: "5,000" },
-                { name: "Hair loosening ( Natural weave)", price: "5,000", desc: "5-15 mins" },
+                { name: "Hair Wash & styling", price: "20,000", desc: "1 hour" },
+                { name: "Hair streaming", price: "20,000", desc: "1 hour" },
+                { name: "Deep conditioning", price: "15,000", desc: "1 hour" },
+                { name: "Scalp Detox", price: "20,000", desc: "1 hour" },
+                { name: "Hair Trim", price: "20,000", desc: "35 mins" },
+                { name: "Hair Detangling", price: "20,000", desc: "1 hour" },
+                { name: "Natural Hair Stretching", price: "15,000", desc: "30 mins" },
+                { name: "Natural Hair Washing", price: "7,000", desc: "20 mins" },
+                { name: "Blow Dry", price: "5,000", desc: "10 mins" },
+                { name: "Scalp massage", price: "5,000", desc: "30 mins" },
+                { name: "Hair loosening ( Natural weave)", price: "5,000", desc: "15 mins" },
             ]
         },
         "Tattoo & Microblading": {
@@ -231,29 +232,29 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
         "Natural Nails Services": {
             title: "Natural Nails Services Price List",
             items: [
-                { name: "Nail strengthening", price: "30,000" },
-                { name: "Russian", price: "35,000" },
-                { name: "Classic", price: "30,000" },
-                { name: "Nail repair", price: "15,000" },
-                { name: "Add-on and Extras", price: "30,000" },
-                { name: "Long nails XXXL", price: "70,000" },
-                { name: "Rhinestone/Gem nails", price: "70,000" },
-                { name: "3D nails designs", price: "60,000" },
-                { name: "Chromes Nails", price: "50,000" },
-                { name: "Custom Hand-Printed Art", price: "70,000" },
-                { name: "French tips with designs", price: "70,000" },
-                { name: "Cat eye effect designs", price: "70,000" },
-                { name: "Nail Art (Simple to Advanced)", price: "40,000" },
-                { name: "Foil/Glitters/Stickers", price: "70,000" },
-                { name: "Marble designs", price: "70,000" },
-                { name: "Press-on Nails", price: "15,000" },
-                { name: "Matte Top Coat", price: "30,000" },
+                { name: "Nail strengthening", price: "30,000", desc: "30-40 mins" },
+                { name: "Russian", price: "35,000", desc: "45 mins" },
+                { name: "Classic", price: "30,000", desc: "45 mins" },
+                { name: "Nail repair", price: "15,000", desc: "30 mins" },
+                { name: "Add-on and Extras", price: "30,000", desc: "30 mins" },
+                { name: "Long nails XXXL", price: "70,000", desc: "2-3 hours" },
+                { name: "Rhinestone/Gem nails", price: "70,000", desc: "2-3 hours" },
+                { name: "3D nails designs", price: "60,000", desc: "2 hours" },
+                { name: "Chromes Nails", price: "50,000", desc: "2 hours" },
+                { name: "Custom Hand-Printed Art", price: "70,000", desc: "2-3 hours" },
+                { name: "French tips with designs", price: "70,000", desc: "2 hours" },
+                { name: "Cat eye effect designs", price: "70,000", desc: "2 hours" },
+                { name: "Nail Art (Simple to Advanced)", price: "40,000", desc: "1-2 hours" },
+                { name: "Foil/Glitters/Stickers", price: "70,000", desc: "3 hours" },
+                { name: "Marble designs", price: "70,000", desc: "3 hours" },
+                { name: "Press-on Nails", price: "15,000", desc: "20 mins" },
+                { name: "Matte Top Coat", price: "30,000", desc: "45-60 mins" },
                 { name: "REMOVAL SERVICES:", isHeader: true },
-                { name: "Gel-X Removal", price: "10,000" },
-                { name: "Dip powder Removal", price: "10,000" },
-                { name: "Nails extension removal", price: "13,000" },
-                { name: "Acrylic soak-Off", price: "10,000" },
-                { name: "Gel Polish Removal", price: "7,000" },
+                { name: "Gel-X Removal", price: "10,000", desc: "30 mins" },
+                { name: "Dip powder Removal", price: "10,000", desc: "30 mins" },
+                { name: "Nails extension removal", price: "13,000", desc: "30 mins" },
+                { name: "Acrylic soak-Off", price: "10,000", desc: "30-45 mins" },
+                { name: "Gel Polish Removal", price: "7,000", desc: "15-20 mins" },
                 { name: "Additional Extra Charge From 8pm to 6am", price: "20,000" },
             ]
         },
@@ -313,7 +314,28 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
         }
     };
 
-    const activeData = (category && servicesData[category]) || servicesData["Hair Braiding"];
+    const [currentCategory, setCurrentCategory] = useState<string>(category || "Hair Braiding");
+    const [bookingService, setBookingService] = useState<BookingServiceData | null>(null);
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+    useEffect(() => {
+        if (category && servicesData[category]) {
+            setCurrentCategory(category);
+        }
+    }, [category]);
+
+    const activeData = servicesData[currentCategory] || servicesData["Hair Braiding"];
+
+    const handleBookItem = (item: { name: string; price?: string; desc?: string }) => {
+        if (!item.price) return;
+        setBookingService({
+            name: item.name,
+            price: item.price,
+            desc: item.desc,
+            category: currentCategory
+        });
+        setIsBookingOpen(true);
+    };
 
     return (
         <div className="fixed inset-0 z-[70] bg-black text-white flex animate-in fade-in duration-300 overflow-hidden">
@@ -330,24 +352,42 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                 <div className="px-6 py-6 border-b border-white/10 flex justify-between items-center bg-black/50 backdrop-blur-md sticky top-0 z-10">
                     <button
                         onClick={onClose}
-                        className="flex items-center gap-2 text-stone-400 hover:text-white transition-colors group"
+                        className="flex items-center gap-2 text-stone-400 hover:text-white transition-colors group cursor-pointer"
                     >
                         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                         <span className="font-medium">Back to Home</span>
                     </button>
                     <div className="flex flex-col items-center">
                         <h2 className="text-amber-500 font-bold tracking-widest uppercase text-xs">J Beauty Studio</h2>
-                        <p className="text-white text-sm font-serif italic">Price List</p>
+                        <p className="text-white text-sm font-serif italic">Price List & Direct Booking</p>
                     </div>
                     <div className="w-24"></div> {/* Spacer */}
                 </div>
 
                 {/* Scrollable Content */}
-                <div className="flex-1 overflow-y-auto px-6 py-12 md:px-24">
+                <div className="flex-1 overflow-y-auto px-6 py-10 md:px-24">
                     <div className="max-w-3xl mx-auto">
 
+                        {/* Category Selector Tabs */}
+                        <div className="flex gap-2.5 overflow-x-auto pb-4 mb-10 no-scrollbar">
+                            {Object.keys(servicesData).map((catName) => (
+                                <button
+                                    key={catName}
+                                    type="button"
+                                    onClick={() => setCurrentCategory(catName)}
+                                    className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                                        currentCategory === catName
+                                            ? 'bg-amber-500 text-stone-950 font-bold shadow-lg shadow-amber-500/25 scale-[1.02]'
+                                            : 'bg-white/5 text-stone-400 hover:text-white hover:bg-white/10 border border-white/5'
+                                    }`}
+                                >
+                                    {catName}
+                                </button>
+                            ))}
+                        </div>
+
                         {/* Payment Notification Note */}
-                        <div className="mb-16 p-8 rounded-3xl bg-stone-900 border border-amber-500/30 relative overflow-hidden group">
+                        <div className="mb-12 p-8 rounded-3xl bg-stone-900 border border-amber-500/30 relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-1000"></div>
 
                             <div className="relative z-10">
@@ -384,34 +424,50 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                         </div>
 
                         {/* Price List Section */}
-                        <div className="space-y-12">
-                            <div className="border-b border-white/10 pb-4">
-                                <h2 className="text-4xl font-serif font-medium text-white mb-2 tracking-tight">{activeData.title}</h2>
-                                <p className="text-stone-500 text-sm italic">Price List</p>
+                        <div className="space-y-10">
+                            <div className="border-b border-white/10 pb-4 flex items-end justify-between">
+                                <div>
+                                    <h2 className="text-3xl sm:text-4xl font-serif font-medium text-white mb-1 tracking-tight">{activeData.title}</h2>
+                                    <p className="text-stone-500 text-sm italic">Select a service to book directly with J-Beauty</p>
+                                </div>
+                                <span className="hidden sm:inline-block text-xs font-semibold text-amber-500 uppercase tracking-widest">
+                                    {activeData.items.filter(i => !i.isHeader).length} Services Available
+                                </span>
                             </div>
 
                             <div className="divide-y divide-white/5">
                                 {activeData.items.map((service, index) => (
                                     service.isHeader ? (
-                                        <div key={index} className="pt-8 pb-4">
-                                            <h3 className="text-amber-500 font-bold tracking-widest uppercase text-sm border-b border-white/10 pb-2 mb-2 inline-block">
+                                        <div key={index} className="pt-8 pb-3">
+                                            <h3 className="text-amber-500 font-bold tracking-widest uppercase text-xs sm:text-sm border-b border-white/10 pb-2 mb-2 inline-block">
                                                 {service.name}
                                             </h3>
                                         </div>
                                     ) : (
-                                         <div key={index} className="py-4 flex justify-between items-start group hover:bg-white/[0.02] -mx-4 px-4 transition-colors rounded-lg">
-                                            <div className="flex flex-col">
-                                                <span className="text-stone-300 group-hover:text-white transition-colors capitalize">{service.name}</span>
+                                        <div key={index} className="py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 group hover:bg-white/[0.03] -mx-4 px-4 transition-colors rounded-xl">
+                                            <div className="flex flex-col flex-1 pr-2">
+                                                <span className="text-stone-200 group-hover:text-white font-medium transition-colors capitalize text-base">
+                                                    {service.name}
+                                                </span>
                                                 {service.desc && (
-                                                    <span className="text-stone-500 group-hover:text-stone-400 text-xs mt-1 lowercase normal-case first-letter:uppercase">
+                                                    <span className="text-stone-400 group-hover:text-stone-300 text-xs mt-1">
                                                         {service.desc}
                                                     </span>
                                                 )}
                                             </div>
+
                                             {service.price && (
-                                                <div className="flex items-center gap-4">
-                                                    <div className="hidden md:block w-32 h-[1px] bg-white/10 group-hover:bg-amber-500/30 transition-colors"></div>
-                                                    <span className="font-bold text-stone-100 group-hover:text-amber-500 transition-colors">₦{service.price}</span>
+                                                <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 shrink-0">
+                                                    <span className="font-bold text-stone-100 group-hover:text-amber-400 transition-colors text-base sm:text-lg">
+                                                        ₦{service.price}
+                                                    </span>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleBookItem(service)}
+                                                        className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs uppercase tracking-wider transition-all shadow-sm hover:shadow-amber-500/25 active:scale-95 cursor-pointer whitespace-nowrap flex items-center gap-1.5"
+                                                    >
+                                                        <span>Book Now</span>
+                                                    </button>
                                                 </div>
                                             )}
                                         </div>
@@ -421,12 +477,19 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                         </div>
 
                         {/* Footer space */}
-                        <div className="py-20 text-center">
+                        <div className="py-16 text-center">
                             <p className="text-stone-600 text-xs tracking-widest uppercase">J Beauty Studio • Lekki Phase I • Lagos</p>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Complete 3-Step Booking Modal */}
+            <BookingModal
+                isOpen={isBookingOpen}
+                onClose={() => setIsBookingOpen(false)}
+                service={bookingService}
+            />
         </div>
     );
 };

@@ -142,12 +142,12 @@ export function useLiveApi(): UseLiveApiReturn {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
       const config = {
-        model: 'gemini-2.5-flash-native-audio-preview-09-2025',
+        model: 'gemini-2.0-flash-exp',
         config: {
           responseModalities: ['AUDIO'],
-          systemInstruction: knowledgeBase, // Use dynamic knowledge base from context
+          systemInstruction: { parts: [{ text: knowledgeBase }] }, // Use dynamic knowledge base from context
           speechConfig: {
-            voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Zephyr' } },
+            voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Aoede' } },
           },
           tools: [{ functionDeclarations: [checkAvailabilityTool, bookAppointmentTool] }]
         }
@@ -285,14 +285,14 @@ export function useLiveApi(): UseLiveApiReturn {
             nextStartTimeRef.current = 0;
           }
         },
-        onclose: () => {
-          console.log('Session closed');
+        onclose: (event: any) => {
+          console.log('Session closed. Code:', event?.code, 'Reason:', event?.reason);
           setStatus(LiveStatus.DISCONNECTED);
           cleanupAudio();
         },
         onerror: (err: any) => {
           // Log simple message to avoid circular structure errors
-          console.error('Session encountered an error');
+          console.error('Session encountered an error', err);
           setStatus(LiveStatus.ERROR);
           cleanupAudio();
         }

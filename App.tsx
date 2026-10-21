@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Star, MapPin, Phone, Mic, ArrowUpRight, Sparkles, CheckCircle2, User, Play, Pause, Quote, Lock, Instagram } from 'lucide-react';
+import { Star, MapPin, Phone, Mic, ArrowUpRight, Sparkles, CheckCircle2, User, Play, Pause, Quote, Lock, Instagram, Clock, Heart } from 'lucide-react';
 import { Analytics } from "@vercel/analytics/react";
 import { useAppContext } from './context/AppContext';
 import VoiceWidget from './components/VoiceWidget';
@@ -64,67 +64,232 @@ const AboutSection = () => (
   </section>
 );
 
-const ServicesSection = ({ onOpenPriceList }: { onOpenPriceList: (category: string) => void }) => (
-  <section id="services" className="py-24 bg-stone-50">
-    <div className="max-w-7xl mx-auto px-6 lg:px-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-        <div>
-          <span className="text-amber-600 font-medium tracking-wider uppercase text-sm mb-2 block">Our Menu</span>
-          <h2 className="text-4xl lg:text-5xl font-medium text-stone-900 mb-4 tracking-tight">Curated Services</h2>
-          <p className="text-stone-500 text-lg">Full glam for the Lagos babe.</p>
-        </div>
-        <button className="hidden md:flex items-center gap-2 text-stone-900 font-medium hover:text-amber-600 transition-colors">
-          View Full Menu <ArrowUpRight className="w-4 h-4" />
-        </button>
-      </div>
+interface ServiceItem {
+  title: string;
+  desc: string;
+  image: string;
+  duration: string;
+  badge?: string;
+  route: string;
+  price: string;
+  subPrice: string;
+  imagePosition?: string;
+}
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[
-          { title: "Hair Braiding", desc: "Knotless, box braids, cornrows - neat and painless styling." },
-          { title: "Lash Extensions", desc: "Classic, Hybrid, or Volume sets for that perfect flutter." },
-          { title: "Nails", desc: "Gel polish, acrylics, and biab overlay designs." },
-          { title: "Pedicure", desc: "Relaxing spa pedicure and foot treatment." },
-          { title: "Makeup", desc: "Owambe glam, bridal, or soft natural beats." },
-          { title: "Hair Styling", desc: "Wig installation, silk press, and revamping." },
-          { title: "Hair Services", desc: "Professional hair washing and therapeutic hair treatments." },
-          { title: "Tattoo & Microblading", desc: "Premium home service tattoos and microblading ombre services." },
-          { title: "Natural Nails Services", desc: "Strengthening, nail art, removal, and natural nail care treatments." },
-          { title: "Home Services", desc: "Premium beauty services delivered to your doorstep in Lagos." }
-        ].map((s, i) => {
-          const hasPriceList = ["Hair Braiding","Lash Extensions","Nails","Pedicure","Makeup","Hair Styling","Hair Services","Tattoo & Microblading","Natural Nails Services","Home Services"].includes(s.title);
-          return (
-          <div
-            key={i}
-            onClick={() => { if (hasPriceList) onOpenPriceList(s.title); }}
-            className={`group p-8 rounded-[2rem] bg-white hover:bg-black hover:text-white transition-all duration-300 border border-stone-100 hover:border-black hover:-translate-y-1 shadow-sm hover:shadow-2xl flex flex-col justify-between h-full ${hasPriceList ? 'cursor-pointer' : ''}`}
+const ServicesSection = ({ onOpenPriceList }: { onOpenPriceList: (category: string) => void }) => {
+  const [favorites, setFavorites] = useState<Record<string, boolean>>({});
+
+  const toggleFavorite = (title: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setFavorites(prev => ({ ...prev, [title]: !prev[title] }));
+  };
+
+  const services: ServiceItem[] = [
+    {
+      title: "Hair Braiding",
+      desc: "Knotless, boho curls, cornrows & stitch braids - neat and painless styling.",
+      image: "/assets/hair-braiding-service.jpg",
+      duration: "3 - 5 HOURS",
+      badge: "STITCH & BOHO",
+      route: "Knotless → Boho Curls → Stitch Rows → Goddess → Box Braids",
+      price: "from ₦35,000",
+      subPrice: "~35k – 180k NGN • 24/7",
+      imagePosition: "object-top"
+    },
+    {
+      title: "Lash Extensions",
+      desc: "Classic, Hybrid, or Volume sets for that perfect flutter.",
+      image: "/assets/IMG_6594.JPG.jpeg",
+      duration: "90 - 180 MINS",
+      badge: "VOLUME & WISPY",
+      route: "Classic → Hybrid → Volume → Mega Volume → Wispy",
+      price: "from ₦20,000",
+      subPrice: "~20k – 100k NGN • 24/7",
+      imagePosition: "object-center"
+    },
+    {
+      title: "Nails",
+      desc: "Gel polish, acrylics, and biab overlay designs.",
+      image: "/assets/IMG_6593.JPG.jpeg",
+      duration: "60 - 180 MINS",
+      badge: "ACRYLIC & BIAB",
+      route: "Gel Polish → Acrylic Set → BIAB Overlay → Custom Art",
+      price: "from ₦15,000",
+      subPrice: "~15k – 90k NGN • 24/7",
+      imagePosition: "object-center"
+    },
+    {
+      title: "Makeup",
+      desc: "Owambe glam, bridal, or soft natural beats.",
+      image: "/assets/IMG_6591.JPG.jpeg",
+      duration: "60 - 90 MINS",
+      badge: "GLAM & BRIDAL",
+      route: "Skin Prep → Soft Beat → Owambe Glam → Bridal Perfection",
+      price: "from ₦30,000",
+      subPrice: "~30k – 80k NGN • 24/7",
+      imagePosition: "object-center"
+    },
+    {
+      title: "Hair Styling",
+      desc: "Wig installation, silk press, and revamping.",
+      image: "/assets/IMG_6596.JPG.jpeg",
+      duration: "2 - 3 HOURS",
+      badge: "WIGS & REVAMP",
+      route: "Frontal Melt → Custom Styling → Silk Press → Revamp",
+      price: "from ₦25,000",
+      subPrice: "~25k – 75k NGN • 24/7"
+    },
+    {
+      title: "Hair Services",
+      desc: "Professional hair washing and therapeutic hair treatments.",
+      image: "/assets/IMG_6597.JPG.jpeg",
+      duration: "45 - 90 MINS",
+      badge: "WASH & THERAPY",
+      route: "Scalp Detox → Deep Conditioning → Steam Therapy → Blowdry",
+      price: "from ₦15,000",
+      subPrice: "~15k – 45k NGN • 24/7"
+    },
+    {
+      title: "Tattoo & Microblading",
+      desc: "Premium home service tattoos and microblading ombre services.",
+      image: "/assets/IMG_6598.JPG.jpeg",
+      duration: "2 - 4 HOURS",
+      badge: "SEMI-PERMANENT",
+      route: "Ombré Brows → Soft Ombré → Microblading → Body Tattoo",
+      price: "from ₦40,000",
+      subPrice: "~40k – 150k NGN • 24/7"
+    },
+    {
+      title: "Pedicure",
+      desc: "Relaxing spa pedicure and foot treatment.",
+      image: "https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=800&q=80",
+      duration: "60 - 75 MINS",
+      badge: "SPA WELLNESS",
+      route: "Herbal Soak → Exfoliation → Callus Treatment → Massage → Gel Polish",
+      price: "from ₦25,000",
+      subPrice: "~25k – 60k NGN • 24/7"
+    },
+    {
+      title: "Natural Nails Services",
+      desc: "Strengthening, nail art, removal, and natural nail care treatments.",
+      image: "/assets/j-beauty-studio-custom-nail-art.jpg",
+      duration: "45 - 90 MINS",
+      badge: "ORGANIC CARE",
+      route: "Nail Health → Cuticle Care → Strengthening Overlay → Subtle Art",
+      price: "from ₦15,000",
+      subPrice: "~15k – 40k NGN • 24/7"
+    },
+    {
+      title: "Home Services",
+      desc: "Premium beauty services delivered to your doorstep in Lagos.",
+      image: "/assets/IMG_6599.JPG.jpeg",
+      duration: "VIP SERVICE",
+      badge: "DOORSTEP LUXURY",
+      route: "Lekki Phase I → Ikoyi → Victoria Island → Banana Island",
+      price: "from ₦50,000",
+      subPrice: "Any Service at Home • 24/7"
+    }
+  ];
+
+  return (
+    <section id="services" className="py-24 bg-stone-50">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div>
+            <span className="text-amber-600 font-medium tracking-wider uppercase text-sm mb-2 block">Our Menu</span>
+            <h2 className="text-4xl lg:text-5xl font-medium text-stone-900 mb-4 tracking-tight">Curated Services</h2>
+            <p className="text-stone-500 text-lg">Full glam for the Lagos babe • Open 24/7.</p>
+          </div>
+          <button
+            onClick={() => onOpenPriceList("Hair Braiding")}
+            className="hidden md:flex items-center gap-2 text-stone-900 font-medium hover:text-amber-600 transition-colors"
           >
-            <div>
-              <div className="flex justify-between items-start mb-6">
-                <div className="w-10 h-10 rounded-full bg-stone-100 text-stone-900 group-hover:bg-white/10 group-hover:text-white flex items-center justify-center font-serif font-bold transition-colors">
-                  {i + 1}
+            View Full Price List <ArrowUpRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+          {services.map((s, i) => {
+            const isFav = !!favorites[s.title];
+            return (
+              <div
+                key={i}
+                onClick={() => onOpenPriceList(s.title)}
+                className="group cursor-pointer bg-white rounded-[2.2rem] p-3.5 sm:p-4 shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.12)] border border-stone-200/70 hover:border-amber-400/50 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5"
+              >
+                {/* Top Image Frame (matches reference card) */}
+                <div>
+                  <div className="relative w-full aspect-[4/3] rounded-[1.6rem] overflow-hidden bg-stone-100">
+                    <img
+                      src={s.image}
+                      alt={s.title}
+                      className={`w-full h-full object-cover ${s.imagePosition || "object-center"} group-hover:scale-105 transition-transform duration-700 ease-out`}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/25 pointer-events-none"></div>
+
+                    {/* Top-left Reference Duration Badge */}
+                    <div className="absolute top-3 left-3 z-10">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-md rounded-full shadow-sm">
+                        <Clock className="w-3.5 h-3.5 text-amber-500 stroke-[2.5]" />
+                        <span className="text-[11px] font-bold text-amber-600 tracking-wide uppercase">{s.duration}</span>
+                      </div>
+                    </div>
+
+                    {/* Top-right Reference Heart Favorite Button */}
+                    <button
+                      type="button"
+                      aria-label="Save to favorites"
+                      onClick={(e) => toggleFavorite(s.title, e)}
+                      className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/30 hover:bg-white backdrop-blur-md border border-white/40 flex items-center justify-center text-white hover:text-rose-500 transition-all duration-200 shadow-sm z-10 active:scale-90"
+                    >
+                      <Heart className={`w-4 h-4 transition-colors ${isFav ? 'fill-rose-500 text-rose-500' : 'text-white'}`} />
+                    </button>
+                  </div>
+
+                  {/* Title & Route (matches reference typography) */}
+                  <div className="px-2 pt-4">
+                    <h3 className="text-xl sm:text-[22px] font-bold text-stone-900 tracking-tight leading-snug group-hover:text-amber-600 transition-colors">
+                      {s.title}
+                    </h3>
+                    <p className="text-stone-500 text-xs sm:text-[13px] leading-relaxed mt-2 line-clamp-2">
+                      <span className="font-semibold text-stone-700">Styles :</span> {s.route}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Divider & Bottom Action Bar (matches reference bottom section) */}
+                <div className="px-2 pt-4 mt-auto">
+                  <div className="border-t border-stone-100 mb-4"></div>
+                  <div className="flex items-center justify-between gap-3">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenPriceList(s.title);
+                      }}
+                      className="bg-amber-500 hover:bg-amber-600 active:scale-95 text-stone-950 font-bold text-[11px] sm:text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl shadow-sm hover:shadow-amber-500/25 transition-all"
+                    >
+                      PRICE LIST
+                    </button>
+
+                    <div className="text-right">
+                      <div className="text-stone-900 font-extrabold text-base sm:text-lg tracking-tight leading-none">
+                        {s.price}
+                      </div>
+                      <div className="text-stone-400 text-[11px] font-medium leading-tight mt-1">
+                        {s.subPrice}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <h3 className="text-2xl font-medium mb-3">{s.title}</h3>
-              <p className="text-stone-500 group-hover:text-stone-400 text-base leading-relaxed">{s.desc}</p>
-            </div>
-
-            <div className="mt-8 flex items-center gap-2 text-sm font-medium text-amber-600 transition-all duration-300">
-              {hasPriceList ? (
-                <span className="flex items-center gap-2">
-                  View Price List <ArrowUpRight className="w-4 h-4" />
-                </span>
-              ) : (
-                <>Book Service <ArrowUpRight className="w-4 h-4" /></>
-              )}
-            </div>
-          </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const HowToBookSection = ({ onOpenAgent }: { onOpenAgent: () => void }) => (
   <section id="how-to-book" className="py-24 bg-white relative overflow-hidden">
