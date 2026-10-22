@@ -57,11 +57,9 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                 { name: "Bottom Lash Extensions Full Set", price: "30,000", desc: "20 mins" },
                 { name: "Lash Removal", price: "15,000", desc: "30 mins" },
                 { name: "ADDITIONAL EXTRA CHARGE FROM (8PM TO 6AM)", price: "20,000" },
-                { name: "--EYEBROWS SERVICES--", isHeader: true },
-                { name: "-OMBRÉ BROWS-", isHeader: true },
-                { name: "Precise. Polished. Elegant", price: "80,000", desc: "3 hours" },
-                { name: "-SOFT OMBRÉ BROWS-", isHeader: true },
-                { name: "Natural. Sculpted. Refined", price: "150,000", desc: "3-4 hours" },
+                { name: "EYEBROW SERVICES", isHeader: true },
+                { name: "Ombre Brows", price: "80,000", desc: "3 hours" },
+                { name: "Soft Ombre Brows", price: "150,000", desc: "3-4 hours" },
             ]
         },
         "Nails": {
@@ -339,46 +337,56 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
 
     return (
         <div className="fixed inset-0 z-[70] bg-black text-white flex animate-in fade-in duration-300 overflow-hidden">
-            {/* Sidebar with vertical text */}
-            <div className="hidden md:flex w-32 border-r border-white/10 flex-col items-center justify-center bg-stone-900 pointer-events-none">
-                <h1 className="text-[120px] font-black tracking-tighter text-white/5 rotate-90 whitespace-nowrap uppercase select-none">
+            {/* Sidebar with vertical text - visible only on large screens */}
+            <div className="hidden lg:flex w-24 xl:w-32 border-r border-white/10 flex-col items-center justify-center bg-stone-900 pointer-events-none shrink-0">
+                <h1 className="text-[90px] xl:text-[120px] font-black tracking-tighter text-white/5 rotate-90 whitespace-nowrap uppercase select-none">
                     Services
                 </h1>
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 flex flex-col h-full relative">
+            <div className="flex-1 flex flex-col h-full relative min-w-0">
                 {/* Header Navigation */}
-                <div className="px-6 py-6 border-b border-white/10 flex justify-between items-center bg-black/50 backdrop-blur-md sticky top-0 z-10">
+                <div className="px-3 sm:px-6 py-3.5 sm:py-5 border-b border-white/10 flex justify-between items-center bg-black/60 backdrop-blur-md sticky top-0 z-20">
                     <button
                         onClick={onClose}
-                        className="flex items-center gap-2 text-stone-400 hover:text-white transition-colors group cursor-pointer"
+                        className="flex items-center gap-1.5 sm:gap-2 text-stone-300 hover:text-white transition-colors group cursor-pointer py-1.5 px-2 -ml-2 rounded-lg hover:bg-white/5"
                     >
-                        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                        <span className="font-medium">Back to Home</span>
+                        <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-1 transition-transform" />
+                        <span className="font-medium text-xs sm:text-sm">Back<span className="hidden sm:inline"> to Home</span></span>
                     </button>
-                    <div className="flex flex-col items-center">
-                        <h2 className="text-amber-500 font-bold tracking-widest uppercase text-xs">J Beauty Studio</h2>
-                        <p className="text-white text-sm font-serif italic">Price List & Direct Booking</p>
+                    
+                    <div className="flex flex-col items-center text-center px-2 min-w-0">
+                        <h2 className="text-amber-500 font-bold tracking-widest uppercase text-[10px] sm:text-xs truncate">J Beauty Studio</h2>
+                        <p className="text-white text-xs sm:text-sm font-serif italic truncate">Price List & Direct Booking</p>
                     </div>
-                    <div className="w-24"></div> {/* Spacer */}
+
+                    <div className="flex items-center justify-end w-16 sm:w-24">
+                        <button
+                            onClick={onClose}
+                            aria-label="Close price list"
+                            className="p-1.5 rounded-full text-stone-400 hover:text-white hover:bg-white/10 transition-colors"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                    </div>
                 </div>
 
                 {/* Scrollable Content */}
-                <div className="flex-1 overflow-y-auto px-6 py-10 md:px-24">
+                <div className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-12 lg:px-16 py-6 sm:py-10 custom-scrollbar">
                     <div className="max-w-3xl mx-auto">
 
                         {/* Category Selector Tabs */}
-                        <div className="flex gap-2.5 overflow-x-auto pb-4 mb-10 no-scrollbar">
+                        <div className="flex gap-2 overflow-x-auto pb-3 mb-8 no-scrollbar scroll-smooth">
                             {Object.keys(servicesData).map((catName) => (
                                 <button
                                     key={catName}
                                     type="button"
                                     onClick={() => setCurrentCategory(catName)}
-                                    className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                                    className={`px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
                                         currentCategory === catName
                                             ? 'bg-amber-500 text-stone-950 font-bold shadow-lg shadow-amber-500/25 scale-[1.02]'
-                                            : 'bg-white/5 text-stone-400 hover:text-white hover:bg-white/10 border border-white/5'
+                                            : 'bg-white/5 text-stone-300 hover:text-white hover:bg-white/10 border border-white/5'
                                     }`}
                                 >
                                     {catName}
@@ -387,50 +395,58 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                         </div>
 
                         {/* Payment Notification Note */}
-                        <div className="mb-12 p-8 rounded-3xl bg-stone-900 border border-amber-500/30 relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-1000"></div>
+                        <div className="mb-8 sm:mb-12 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl bg-stone-900 border border-amber-500/30 relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-1000 pointer-events-none"></div>
 
                             <div className="relative z-10">
-                                <h3 className="text-xl font-bold text-amber-500 mb-4 flex items-center gap-2">
-                                    <MessageCircle className="w-5 h-5" />
-                                    Terms of Payment & Bank Details
+                                <h3 className="text-lg sm:text-xl font-bold text-amber-500 mb-3 flex items-center gap-2">
+                                    <MessageCircle className="w-5 h-5 shrink-0" />
+                                    <span>Terms of Payment & Bank Details</span>
                                 </h3>
-                                <p className="text-stone-300 leading-relaxed mb-6">
+                                <p className="text-stone-300 text-xs sm:text-sm leading-relaxed mb-5">
                                     To confirm your booking, please make a <span className="text-white font-bold">50% deposit</span> for your selected service to the J Beauty Studio account. Kindly send your proof of payment to our WhatsApp number once completed.
                                 </p>
 
-                                <div className="grid md:grid-cols-2 gap-4 mb-6">
-                                    <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-5">
+                                    <div className="p-3.5 sm:p-4 rounded-xl bg-black/40 border border-white/5">
                                         <p className="text-stone-500 text-[10px] uppercase font-bold tracking-widest mb-1">Account Number</p>
-                                        <p className="text-lg font-mono text-white">9642252198</p>
+                                        <p className="text-base sm:text-lg font-mono text-white font-bold">9642252198</p>
                                         <p className="text-stone-400 text-xs mt-1">Providus Bank • J BEAUTY STUDIO</p>
                                     </div>
-                                    <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                                    <div className="p-3.5 sm:p-4 rounded-xl bg-black/40 border border-white/5">
                                         <p className="text-stone-500 text-[10px] uppercase font-bold tracking-widest mb-1">WhatsApp Verification</p>
-                                        <p className="text-lg font-mono text-white">+234 704 100 8039</p>
+                                        <p className="text-base sm:text-lg font-mono text-white font-bold">+234 704 100 8039</p>
                                         <p className="text-stone-400 text-xs mt-1">Send screenshot after payment</p>
                                     </div>
                                 </div>
 
-                                <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-2">
-                                    <p className="text-amber-200 text-sm leading-relaxed">
-                                        <span className="font-bold">Note:</span> An extra payment of <span className="font-bold text-white">₦20,000</span> will be collected for late night bookings <span className="italic">(8pm – 6am)</span>.
-                                    </p>
-                                    <p className="text-amber-200 text-sm leading-relaxed">
-                                        <span className="font-bold">Please note:</span> Time may vary depending on length and customer’s hair texture.
+                                <div className="p-3.5 sm:p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-2.5 text-xs sm:text-sm">
+                                    <div className="flex items-center gap-2 text-amber-300 font-bold uppercase tracking-wider text-[11px] sm:text-xs">
+                                        <span>Studio Booking Policy Summary</span>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-stone-300 text-xs">
+                                        <p>• <span className="text-white font-medium">50% Deposit:</span> Non-refundable to confirm appointment.</p>
+                                        <p>• <span className="text-white font-medium">Grace Period:</span> 25 to 30 mins before shortening/reschedule.</p>
+                                        <p>• <span className="text-white font-medium">Late-Night (8pm–6am):</span> Strictly appointment only + ₦20,000 fee.</p>
+                                        <p>• <span className="text-white font-medium">Cancellations:</span> Minimum 24 hours notice required.</p>
+                                        <p>• <span className="text-white font-medium">Rescheduling:</span> 1 notice allowed; no-shows forfeit deposit.</p>
+                                        <p>• <span className="text-white font-medium">Studio Etiquette:</span> Maximum 1 extra guest; zero abuse tolerance.</p>
+                                    </div>
+                                    <p className="text-amber-200/90 text-[11px] pt-1 border-t border-amber-500/20">
+                                        <span className="font-bold">Address:</span> 8B Providence Road, Lekki Town Square Mall, Lekki Phase 1, Lagos. Daytime walk-ins welcome!
                                     </p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Price List Section */}
-                        <div className="space-y-10">
-                            <div className="border-b border-white/10 pb-4 flex items-end justify-between">
+                        <div className="space-y-8 sm:space-y-10">
+                            <div className="border-b border-white/10 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                                 <div>
-                                    <h2 className="text-3xl sm:text-4xl font-serif font-medium text-white mb-1 tracking-tight">{activeData.title}</h2>
-                                    <p className="text-stone-500 text-sm italic">Select a service to book directly with J-Beauty</p>
+                                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-white mb-1 tracking-tight">{activeData.title}</h2>
+                                    <p className="text-stone-400 text-xs sm:text-sm italic">Select a service to book directly with J-Beauty</p>
                                 </div>
-                                <span className="hidden sm:inline-block text-xs font-semibold text-amber-500 uppercase tracking-widest">
+                                <span className="text-[11px] sm:text-xs font-semibold text-amber-500 uppercase tracking-widest">
                                     {activeData.items.filter(i => !i.isHeader).length} Services Available
                                 </span>
                             </div>
@@ -438,33 +454,33 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                             <div className="divide-y divide-white/5">
                                 {activeData.items.map((service, index) => (
                                     service.isHeader ? (
-                                        <div key={index} className="pt-8 pb-3">
-                                            <h3 className="text-amber-500 font-bold tracking-widest uppercase text-xs sm:text-sm border-b border-white/10 pb-2 mb-2 inline-block">
+                                        <div key={index} className="pt-6 sm:pt-8 pb-2 sm:pb-3">
+                                            <h3 className="text-amber-500 font-bold tracking-widest uppercase text-xs sm:text-sm border-b border-white/10 pb-2 mb-1 inline-block">
                                                 {service.name}
                                             </h3>
                                         </div>
                                     ) : (
-                                        <div key={index} className="py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 group hover:bg-white/[0.03] -mx-4 px-4 transition-colors rounded-xl">
+                                        <div key={index} className="py-3.5 sm:py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2.5 sm:gap-4 group hover:bg-white/[0.03] -mx-2 sm:-mx-4 px-2 sm:px-4 transition-colors rounded-xl">
                                             <div className="flex flex-col flex-1 pr-2">
-                                                <span className="text-stone-200 group-hover:text-white font-medium transition-colors capitalize text-base">
+                                                <span className="text-stone-200 group-hover:text-white font-medium transition-colors capitalize text-sm sm:text-base">
                                                     {service.name}
                                                 </span>
                                                 {service.desc && (
-                                                    <span className="text-stone-400 group-hover:text-stone-300 text-xs mt-1">
+                                                    <span className="text-stone-400 group-hover:text-stone-300 text-xs mt-0.5">
                                                         {service.desc}
                                                     </span>
                                                 )}
                                             </div>
 
                                             {service.price && (
-                                                <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 shrink-0">
+                                                <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 shrink-0 mt-1 sm:mt-0">
                                                     <span className="font-bold text-stone-100 group-hover:text-amber-400 transition-colors text-base sm:text-lg">
                                                         ₦{service.price}
                                                     </span>
                                                     <button
                                                         type="button"
                                                         onClick={() => handleBookItem(service)}
-                                                        className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs uppercase tracking-wider transition-all shadow-sm hover:shadow-amber-500/25 active:scale-95 cursor-pointer whitespace-nowrap flex items-center gap-1.5"
+                                                        className="px-3.5 sm:px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs uppercase tracking-wider transition-all shadow-sm hover:shadow-amber-500/25 active:scale-95 cursor-pointer whitespace-nowrap flex items-center gap-1.5"
                                                     >
                                                         <span>Book Now</span>
                                                     </button>
@@ -477,8 +493,8 @@ const PriceList: React.FC<PriceListProps> = ({ onClose, category }) => {
                         </div>
 
                         {/* Footer space */}
-                        <div className="py-16 text-center">
-                            <p className="text-stone-600 text-xs tracking-widest uppercase">J Beauty Studio • Lekki Phase I • Lagos</p>
+                        <div className="py-12 sm:py-16 text-center">
+                            <p className="text-stone-500 text-xs tracking-widest uppercase">J Beauty Studio • Lekki Phase I • Lagos</p>
                         </div>
                     </div>
                 </div>

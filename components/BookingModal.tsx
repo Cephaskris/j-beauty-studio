@@ -160,9 +160,9 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
       <div 
-        className="relative w-full max-w-2xl bg-stone-900 border border-amber-500/30 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl text-white my-8 overflow-hidden"
+        className="relative w-full max-w-2xl bg-stone-900 border border-amber-500/30 rounded-2xl sm:rounded-3xl md:rounded-[2.5rem] p-4 sm:p-6 md:p-8 shadow-2xl text-white my-auto sm:my-8 overflow-hidden max-h-[94vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Ambient Glow */}
@@ -170,15 +170,15 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
         {/* Modal Header */}
-        <div className="flex items-center justify-between pb-6 border-b border-white/10 relative z-10">
+        <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-white/10 relative z-10 shrink-0">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="font-serif italic text-amber-500 font-bold text-xl">J Beauty</span>
-              <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full">
+              <span className="font-serif italic text-amber-500 font-bold text-lg sm:text-xl">J Beauty</span>
+              <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-[0.2em] sm:tracking-[0.25em] text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full">
                 {step === 1 ? 'Step 1 of 3: Policy' : step === 2 ? 'Step 2 of 3: Details' : 'Step 3 of 3: Complete'}
               </span>
             </div>
-            <h2 className="text-2xl font-bold tracking-tight text-white">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
               {step === 1 && 'Booking & Privacy Policy'}
               {step === 2 && 'Schedule Your Appointment'}
               {step === 3 && 'Booking Confirmed!'}
@@ -188,7 +188,7 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
           <button
             onClick={handleModalClose}
             aria-label="Close booking modal"
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-stone-300 hover:text-white transition-colors"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-stone-300 hover:text-white transition-colors shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
@@ -207,75 +207,119 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
           </div>
         </div>
 
-        {/* STEP 1: BOOKING PRIVACY POLICY */}
+        {/* STEP 1: OFFICIAL BOOKING POLICY & REGULATIONS */}
         {step === 1 && (
-          <div className="mt-6 space-y-6 relative z-10">
-            <div className="space-y-4 max-h-[360px] overflow-y-auto pr-2 custom-scrollbar text-sm leading-relaxed text-stone-300">
-              <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-3">
-                <div className="flex items-center gap-2 text-amber-400 font-bold">
-                  <ShieldCheck className="w-5 h-5" />
-                  <h4>1. 50% Commitment Deposit</h4>
+          <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6 relative z-10 flex-1 overflow-y-auto custom-scrollbar">
+            <div className="space-y-3 sm:space-y-4 max-h-[44vh] sm:max-h-[380px] overflow-y-auto pr-1 sm:pr-2 custom-scrollbar text-xs sm:text-sm leading-relaxed text-stone-300">
+              
+              {/* Bank Deposit Box */}
+              <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-2 sm:space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-amber-400 font-bold">
+                    <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                    <h4 className="text-sm sm:text-base">1. Non-Refundable 50% Deposit</h4>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded-full">Rule 1, 2, 3 & 13</span>
                 </div>
-                <p>
-                  To secure your scheduled salon or home session, a <span className="text-white font-semibold">50% non-refundable deposit</span> is required at the time of booking. The remaining balance is payable upon completion of your service.
+                <p className="text-stone-200">
+                  A <span className="text-white font-bold">50% non-refundable deposit</span> is required before any appointment can be confirmed. Appointments are strictly confirmed only once payment/deposit has been received.
                 </p>
-                <div className="p-3 bg-white/5 rounded-xl text-xs space-y-1 text-stone-300">
-                  <p><span className="text-amber-300 font-medium">Bank:</span> Providus Bank</p>
-                  <p><span className="text-amber-300 font-medium">Account Number:</span> 9642252198</p>
-                  <p><span className="text-amber-300 font-medium">Account Name:</span> J BEAUTY STUDIO</p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 p-2.5 sm:p-3 bg-black/40 rounded-xl text-[11px] sm:text-xs text-stone-300 border border-white/5">
+                  <p><span className="text-amber-400 font-medium">Bank:</span> Providus Bank</p>
+                  <p><span className="text-amber-400 font-medium">Account:</span> <span className="font-mono text-white font-bold">9642252198</span></p>
+                  <p><span className="text-amber-400 font-medium">Account Name:</span> J BEAUTY STUDIO</p>
                 </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
-                <div className="flex items-center gap-2 text-amber-400 font-bold">
-                  <Clock className="w-5 h-5" />
-                  <h4>2. 24/7 Hours & Late-Night Charge</h4>
-                </div>
-                <p>
-                  We are proudly open 24/7. An additional <span className="text-white font-semibold">₦20,000 extra charge</span> applies to appointments booked during late-night hours between <span className="text-amber-300">8:00 PM and 6:00 AM</span>.
+                <p className="text-[11px] text-amber-200/90 italic">
+                  Rule 4: The remaining 50% balance must be paid on the day of your appointment before or after service.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
-                <div className="flex items-center gap-2 text-amber-400 font-bold">
-                  <AlertCircle className="w-5 h-5" />
-                  <h4>3. Punctuality & Grace Period</h4>
+              {/* Late-Night Policy (8:00 PM – 6:00 AM) */}
+              <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 border border-white/10 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-amber-400 font-bold">
+                    <Clock className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                    <h4 className="text-sm sm:text-base">2. Late-Night Policy (8:00 PM – 6:00 AM)</h4>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-white/10 px-2 py-0.5 rounded-full">Rule 5 & Late-Night</span>
+                </div>
+                <ul className="space-y-1.5 text-stone-300 list-disc list-inside">
+                  <li><span className="text-white font-semibold">Strictly Appointment Only:</span> Walk-ins will not be accepted between 8:00 PM and 6:00 AM.</li>
+                  <li><span className="text-white font-semibold">₦20,000 Late-Night Fee:</span> Any appointment between 8:00 PM and 6:00 AM attracts an additional ₦20,000 late-night appointment fee (separate from the service price).</li>
+                  <li>Late-night home service appointments are also subject to this ₦20,000 fee and must be booked in advance.</li>
+                </ul>
+              </div>
+
+              {/* Punctuality & Grace Period */}
+              <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 border border-white/10 space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-amber-400 font-bold">
+                    <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                    <h4 className="text-sm sm:text-base">3. Punctuality & Grace Period (25–30 Mins)</h4>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-white/10 px-2 py-0.5 rounded-full">Rule 6</span>
                 </div>
                 <p>
-                  Please arrive 10–15 minutes early. A grace period of 15 minutes is allowed. Late arrivals exceeding 20 minutes may be rescheduled to ensure other clients are not delayed.
+                  Clients are expected to arrive on time. We provide a <span className="text-white font-semibold">grace period of 25 to 30 minutes</span>. After that, the appointment may be shortened, rescheduled, or cancelled, and may result in additional charges depending on circumstances.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
-                <div className="flex items-center gap-2 text-amber-400 font-bold">
-                  <Sparkles className="w-5 h-5" />
-                  <h4>4. Privacy & Personal Information</h4>
+              {/* Cancellations, Rescheduling & No-Shows */}
+              <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 border border-white/10 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-amber-400 font-bold">
+                    <X className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                    <h4 className="text-sm sm:text-base">4. Cancellations, Rescheduling & No-Shows</h4>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-white/10 px-2 py-0.5 rounded-full">Rule 7, 8 & 9</span>
                 </div>
-                <p>
-                  Your personal information (name, phone number, and appointment details) is strictly confidential. We only use your information to coordinate your booking, provide appointment confirmations, and dispatch stylists.
-                </p>
+                <ul className="space-y-1.5 text-stone-300 list-disc list-inside">
+                  <li><span className="text-white font-semibold">Cancellations (Rule 7):</span> Cancellations made with less than 24 hours notice will result in the forfeiture of your 50% deposit.</li>
+                  <li><span className="text-white font-semibold">No-Shows (Rule 8):</span> Clients who fail to show up will automatically forfeit their deposit. A new deposit will be required for any future appointment (genuine emergencies may be reviewed at studio discretion).</li>
+                  <li><span className="text-white font-semibold">Rescheduling (Rule 9):</span> Only one rescheduled appointment notice is allowed. Repeated rescheduling will require a new deposit.</li>
+                </ul>
               </div>
+
+              {/* Studio Etiquette, Guests & VIP Home Service */}
+              <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 border border-white/10 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-amber-400 font-bold">
+                    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                    <h4 className="text-sm sm:text-base">5. Studio Etiquette, Guests & VIP Bookings</h4>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-white/10 px-2 py-0.5 rounded-full">Rule 10, 11, 12, 14, 15, 16</span>
+                </div>
+                <ul className="space-y-1.5 text-stone-300 list-disc list-inside">
+                  <li><span className="text-white font-semibold">Service Changes (Rule 10):</span> Please communicate any change in service before the appointment rather than expecting extra services during the session.</li>
+                  <li><span className="text-white font-semibold">Children & Guests (Rule 11):</span> Clients can only bring <span className="text-amber-300 font-semibold">1 extra person only</span>.</li>
+                  <li><span className="text-white font-semibold">Home Service / VIP (Rule 12):</span> Requires a full or large deposit because staff are specifically dispatched to your location.</li>
+                  <li><span className="text-white font-semibold">Pricing (Rule 14):</span> Prices are subject to review, but the price confirmed at booking will apply unless you modify your service.</li>
+                  <li><span className="text-white font-semibold">Respectful Behavior (Rule 15):</span> Zero tolerance for abuse, harassment, argument, or disrespect towards staff.</li>
+                  <li><span className="text-white font-semibold">Walk-Ins (Rule 16):</span> Daytime walk-ins are always warmly welcomed.</li>
+                </ul>
+              </div>
+
             </div>
 
             {/* Checkbox Agreement */}
-            <label className="flex items-start gap-3 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 cursor-pointer hover:bg-amber-500/15 transition-colors">
+            <label className="flex items-start gap-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-amber-500/10 border border-amber-500/30 cursor-pointer hover:bg-amber-500/15 transition-colors">
               <input
                 type="checkbox"
                 checked={policyAccepted}
                 onChange={(e) => setPolicyAccepted(e.target.checked)}
-                className="mt-1 w-5 h-5 rounded border-amber-400 text-amber-600 focus:ring-amber-500 focus:ring-offset-stone-900 cursor-pointer"
+                className="mt-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded border-amber-400 text-amber-600 focus:ring-amber-500 focus:ring-offset-stone-900 cursor-pointer shrink-0"
               />
-              <span className="text-sm text-stone-200">
+              <span className="text-xs sm:text-sm text-stone-200 leading-snug">
                 I have read, understood, and agree to the <span className="text-amber-400 font-semibold">J-Beauty Studio Booking Policy & Terms</span>, including the 50% deposit requirement.
               </span>
             </label>
 
             {/* Actions */}
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-4 pt-1 sm:pt-2 shrink-0">
               <button
                 type="button"
                 onClick={handleModalClose}
-                className="px-6 py-3 rounded-full text-stone-400 hover:text-white font-medium text-sm transition-colors"
+                className="w-full sm:w-auto px-5 py-2.5 sm:py-3 rounded-full text-stone-400 hover:text-white font-medium text-xs sm:text-sm transition-colors text-center"
               >
                 Cancel
               </button>
@@ -284,7 +328,7 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
                 type="button"
                 disabled={!policyAccepted}
                 onClick={handleProceedToForm}
-                className={`flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-sm uppercase tracking-wider transition-all duration-300 shadow-lg ${
+                className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-lg ${
                   policyAccepted
                     ? 'bg-amber-500 hover:bg-amber-400 text-stone-950 hover:shadow-amber-500/25 active:scale-95 cursor-pointer'
                     : 'bg-stone-800 text-stone-500 cursor-not-allowed border border-white/5'
@@ -299,11 +343,11 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
 
         {/* STEP 2: APPOINTMENT DETAILS FORM */}
         {step === 2 && (
-          <form onSubmit={handleConfirmBooking} className="mt-6 space-y-5 relative z-10">
-            <div className="grid md:grid-cols-2 gap-4">
+          <form onSubmit={handleConfirmBooking} className="mt-4 sm:mt-6 space-y-4 sm:space-y-5 relative z-10 flex-1 overflow-y-auto pr-1 custom-scrollbar">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               {/* Full Name */}
               <div>
-                <label className="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1.5">
+                <label className="block text-[11px] sm:text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">
                   Full Name *
                 </label>
                 <div className="relative">
@@ -314,14 +358,14 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
                     placeholder="e.g. Chioma Okeke"
-                    className="w-full bg-black/50 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
+                    className="w-full bg-black/50 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 sm:py-3 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
                   />
                 </div>
               </div>
 
               {/* Phone / WhatsApp */}
               <div>
-                <label className="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1.5">
+                <label className="block text-[11px] sm:text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">
                   WhatsApp Phone Number *
                 </label>
                 <div className="relative">
@@ -332,17 +376,17 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="e.g. 08012345678"
-                    className="w-full bg-black/50 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
+                    className="w-full bg-black/50 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 sm:py-3 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
                   />
                 </div>
               </div>
             </div>
 
             {/* Date & Time Grid */}
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               {/* Preferred Date */}
               <div>
-                <label className="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1.5">
+                <label className="block text-[11px] sm:text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">
                   Preferred Date *
                 </label>
                 <div className="relative">
@@ -353,14 +397,14 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
                     min={new Date().toISOString().split('T')[0]}
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
+                    className="w-full bg-black/50 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 sm:py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
                   />
                 </div>
               </div>
 
               {/* Preferred Time */}
               <div>
-                <label className="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1.5">
+                <label className="block text-[11px] sm:text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">
                   Scheduled Time Slot (24/7 Available) *
                 </label>
                 <div className="relative">
@@ -368,7 +412,7 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
                   <select
                     value={selectedTime}
                     onChange={(e) => setSelectedTime(e.target.value)}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors appearance-none cursor-pointer"
+                    className="w-full bg-black/50 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 sm:py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors cursor-pointer"
                   >
                     {timeSlots.map((time) => (
                       <option key={time} value={time} className="bg-stone-900 text-white">
@@ -382,16 +426,16 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
 
             {/* Location Type */}
             <div>
-              <label className="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] sm:text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">
                 Service Location
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => setLocationType('salon')}
-                  className={`p-3 rounded-xl border text-left transition-all ${
+                  className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                     locationType === 'salon'
-                      ? 'bg-amber-500/15 border-amber-500 text-white'
+                      ? 'bg-amber-500/15 border-amber-500 text-white shadow-sm'
                       : 'bg-black/30 border-white/10 text-stone-400 hover:text-white'
                   }`}
                 >
@@ -399,15 +443,15 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
                     <MapPin className="w-4 h-4 text-amber-500" />
                     Salon Visit
                   </p>
-                  <p className="text-[11px] text-stone-400 mt-1">Lekki Phase I, Lagos</p>
+                  <p className="text-[11px] text-stone-400 mt-0.5">Lekki Phase I, Lagos</p>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setLocationType('home')}
-                  className={`p-3 rounded-xl border text-left transition-all ${
+                  className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                     locationType === 'home'
-                      ? 'bg-amber-500/15 border-amber-500 text-white'
+                      ? 'bg-amber-500/15 border-amber-500 text-white shadow-sm'
                       : 'bg-black/30 border-white/10 text-stone-400 hover:text-white'
                   }`}
                 >
@@ -415,12 +459,12 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
                     <Sparkles className="w-4 h-4 text-amber-500" />
                     Home / Mobile
                   </p>
-                  <p className="text-[11px] text-stone-400 mt-1">Doorstep service</p>
+                  <p className="text-[11px] text-stone-400 mt-0.5">Doorstep service</p>
                 </button>
               </div>
 
               {locationType === 'home' && (
-                <div className="mt-3">
+                <div className="mt-2.5">
                   <input
                     type="text"
                     value={homeAddress}
@@ -434,7 +478,7 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
 
             {/* Special Notes */}
             <div>
-              <label className="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] sm:text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">
                 Special Requests or Hair/Nail Specifications (Optional)
               </label>
               <textarea
@@ -442,12 +486,12 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="e.g. Extra long length, blonde ombre ends, specific nail shape..."
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
+                className="w-full bg-black/50 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
               />
             </div>
 
             {/* Deposit Calculation Summary Card */}
-            <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-stone-300 space-y-1.5">
+            <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-stone-300 space-y-1">
               <div className="flex justify-between text-stone-300">
                 <span>Total Service Price:</span>
                 <span className="font-bold text-white">₦{service.price}</span>
@@ -456,17 +500,17 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
                 <span>50% Required Deposit:</span>
                 <span>₦{depositAmount.toLocaleString()}</span>
               </div>
-              <p className="text-stone-400 text-[11px] pt-1">
+              <p className="text-stone-400 text-[11px] pt-0.5">
                 Providus Bank • 9642252198 • J BEAUTY STUDIO
               </p>
             </div>
 
             {/* Actions */}
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex items-center justify-between gap-3 pt-2 shrink-0">
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="flex items-center gap-1.5 px-5 py-3 rounded-full text-stone-400 hover:text-white font-medium text-sm transition-colors"
+                className="flex items-center gap-1.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full text-stone-400 hover:text-white font-medium text-xs sm:text-sm transition-colors cursor-pointer"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -475,7 +519,7 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex items-center gap-2 px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-stone-950 rounded-full font-bold text-sm uppercase tracking-wider transition-all duration-300 shadow-lg hover:shadow-amber-500/25 active:scale-95 cursor-pointer"
+                className="flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 bg-amber-500 hover:bg-amber-400 text-stone-950 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-lg hover:shadow-amber-500/25 active:scale-95 cursor-pointer"
               >
                 <span>{isSubmitting ? 'Confirming...' : 'Confirm Booking'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -486,23 +530,23 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
 
         {/* STEP 3: BOOKING CONFIRMATION & WHATSAPP DISPATCH */}
         {step === 3 && (
-          <div className="mt-6 space-y-6 relative z-10">
+          <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6 relative z-10 flex-1 overflow-y-auto pr-1 custom-scrollbar">
             {/* Success Banner */}
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-500/20 to-black/60 border border-amber-500/40 text-center space-y-2">
-              <div className="w-14 h-14 rounded-full bg-amber-500 text-stone-950 flex items-center justify-center mx-auto shadow-lg shadow-amber-500/30">
-                <CheckCircle2 className="w-8 h-8" />
+            <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-amber-500/20 to-black/60 border border-amber-500/40 text-center space-y-1.5 sm:space-y-2">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-amber-500 text-stone-950 flex items-center justify-center mx-auto shadow-lg shadow-amber-500/30">
+                <CheckCircle2 className="w-7 h-7 sm:w-8 sm:h-8" />
               </div>
-              <h3 className="text-2xl font-bold text-white tracking-tight">Booking Initiated!</h3>
-              <p className="text-stone-300 text-sm max-w-md mx-auto">
-                Reference Code: <span className="font-mono font-bold text-amber-400 text-base">{bookingRef}</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Booking Initiated!</h3>
+              <p className="text-stone-300 text-xs sm:text-sm max-w-md mx-auto">
+                Reference Code: <span className="font-mono font-bold text-amber-400 text-sm sm:text-base">{bookingRef}</span>
               </p>
-              <p className="text-stone-400 text-xs">
+              <p className="text-stone-400 text-[11px] sm:text-xs">
                 Send your booking summary and proof of deposit to our official WhatsApp to lock in your appointment.
               </p>
             </div>
 
-            {/* Outlined Booking Summary (as requested) */}
-            <div className="p-5 rounded-2xl bg-black/40 border border-white/10 space-y-3 text-sm">
+            {/* Outlined Booking Summary */}
+            <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-black/40 border border-white/10 space-y-2.5 sm:space-y-3 text-xs sm:text-sm">
               <div className="flex justify-between items-center border-b border-white/10 pb-2">
                 <span className="text-stone-400">Client Name:</span>
                 <span className="font-bold text-white">{clientName}</span>
@@ -525,38 +569,38 @@ I have accepted the booking policy. Please verify my deposit and confirm my appo
                   {locationType === 'salon' ? 'Salon (8b The Providence St, Lekki)' : `Home (${homeAddress || 'Lagos'})`}
                 </span>
               </div>
-              <div className="flex justify-between items-center pt-1 text-base">
+              <div className="flex justify-between items-center pt-1 text-sm sm:text-base">
                 <span className="text-stone-300 font-semibold">50% Deposit Due:</span>
                 <span className="font-bold text-amber-400">₦{depositAmount.toLocaleString()}</span>
               </div>
             </div>
 
             {/* Primary Action: Send to WhatsApp */}
-            <div className="space-y-3">
+            <div className="space-y-2.5 sm:space-y-3 shrink-0">
               <button
                 type="button"
                 onClick={handleOpenWhatsApp}
-                className="w-full py-4 px-6 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-base flex items-center justify-center gap-3 shadow-xl hover:shadow-green-500/25 transition-all transform hover:-translate-y-0.5 active:scale-[0.99] cursor-pointer"
+                className="w-full py-3.5 sm:py-4 px-4 sm:px-6 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2.5 sm:gap-3 shadow-xl hover:shadow-green-500/25 transition-all transform hover:-translate-y-0.5 active:scale-[0.99] cursor-pointer"
               >
-                <MessageCircle className="w-6 h-6 fill-white" />
-                <span>Send Booking to WhatsApp (+234 704 100 8039)</span>
-                <ExternalLink className="w-4 h-4 ml-1 opacity-80" />
+                <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 fill-white shrink-0" />
+                <span className="truncate">Send Booking to WhatsApp (+234 704 100 8039)</span>
+                <ExternalLink className="w-4 h-4 ml-1 opacity-80 shrink-0" />
               </button>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={handleCopyDetails}
-                  className="flex-1 py-3 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-stone-200 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors border border-white/10"
+                  className="w-full sm:flex-1 py-2.5 sm:py-3 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-stone-200 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors border border-white/10 cursor-pointer"
                 >
-                  <Copy className="w-4 h-4 text-amber-400" />
+                  <Copy className="w-4 h-4 text-amber-400 shrink-0" />
                   <span>{copied ? 'Copied to Clipboard!' : 'Copy Summary'}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleModalClose}
-                  className="flex-1 py-3 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-stone-200 hover:text-white text-xs font-semibold flex items-center justify-center transition-colors border border-white/10"
+                  className="w-full sm:flex-1 py-2.5 sm:py-3 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-stone-200 hover:text-white text-xs font-semibold flex items-center justify-center transition-colors border border-white/10 cursor-pointer"
                 >
                   Done & Close
                 </button>

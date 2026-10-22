@@ -233,16 +233,16 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
     };
 
     return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in overflow-y-auto md:overflow-hidden">
-            <div className="bg-white rounded-3xl w-full max-w-5xl h-[90vh] md:max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+        <div className="fixed inset-0 z-[85] flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4 md:p-6 animate-in fade-in overflow-y-auto md:overflow-hidden">
+            <div className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-5xl h-[94vh] sm:h-[90vh] md:max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
 
                 {/* Header */}
-                <div className="px-6 py-4 border-b border-stone-200 flex justify-between items-center bg-stone-50 shrink-0">
+                <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-stone-200 flex justify-between items-center bg-stone-50 shrink-0">
                     <div className="flex items-center gap-2">
-                        <Lock className="w-5 h-5 text-amber-600" />
-                        <span className="font-bold text-stone-800 text-sm md:text-base">J-Beauty Database</span>
+                        <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
+                        <span className="font-bold text-stone-800 text-xs sm:text-sm md:text-base">J-Beauty Database</span>
                     </div>
-                    <button onClick={onClose} className="p-2 hover:bg-stone-200 rounded-full transition-colors">
+                    <button onClick={onClose} aria-label="Close admin panel" className="p-1.5 sm:p-2 hover:bg-stone-200 rounded-full transition-colors cursor-pointer">
                         <X className="w-5 h-5 text-stone-500" />
                     </button>
                 </div>
@@ -310,33 +310,33 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
                                 </button>
                             </div>
 
-                            <nav className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 font-medium">
+                            <nav className="flex md:flex-col gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar md:overflow-visible pb-2 md:pb-0 font-medium">
                                 <button
                                     onClick={() => setActiveTab('bookings')}
-                                    className={`flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 rounded-xl transition-colors whitespace-nowrap text-sm md:text-base ${activeTab === 'bookings' ? 'bg-amber-100 text-amber-900' : 'text-stone-600 hover:bg-stone-100'}`}
+                                    className={`flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 rounded-xl transition-colors whitespace-nowrap text-xs sm:text-sm md:text-base cursor-pointer ${activeTab === 'bookings' ? 'bg-amber-100 text-amber-900 font-bold' : 'text-stone-600 hover:bg-stone-100'}`}
                                 >
-                                    <Calendar className="w-4 h-4 md:w-5 md:h-5" />
+                                    <Calendar className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
                                     Bookings DB
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('dashboard')}
-                                    className={`flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 rounded-xl transition-colors whitespace-nowrap text-sm md:text-base ${activeTab === 'dashboard' ? 'bg-amber-100 text-amber-900' : 'text-stone-600 hover:bg-stone-100'}`}
+                                    className={`flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 rounded-xl transition-colors whitespace-nowrap text-xs sm:text-sm md:text-base cursor-pointer ${activeTab === 'dashboard' ? 'bg-amber-100 text-amber-900 font-bold' : 'text-stone-600 hover:bg-stone-100'}`}
                                 >
-                                    <LayoutDashboard className="w-4 h-4 md:w-5 md:h-5" />
+                                    <LayoutDashboard className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
                                     Dashboard
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('settings')}
-                                    className={`flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 rounded-xl transition-colors whitespace-nowrap text-sm md:text-base ${activeTab === 'settings' ? 'bg-amber-100 text-amber-900' : 'text-stone-600 hover:bg-stone-100'}`}
+                                    className={`flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 rounded-xl transition-colors whitespace-nowrap text-xs sm:text-sm md:text-base cursor-pointer ${activeTab === 'settings' ? 'bg-amber-100 text-amber-900 font-bold' : 'text-stone-600 hover:bg-stone-100'}`}
                                 >
-                                    <Settings className="w-4 h-4 md:w-5 md:h-5" />
+                                    <Settings className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
                                     AI Knowledge
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('security')}
-                                    className={`flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 rounded-xl transition-colors whitespace-nowrap text-sm md:text-base ${activeTab === 'security' ? 'bg-amber-100 text-amber-900' : 'text-stone-600 hover:bg-stone-100'}`}
+                                    className={`flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 rounded-xl transition-colors whitespace-nowrap text-xs sm:text-sm md:text-base cursor-pointer ${activeTab === 'security' ? 'bg-amber-100 text-amber-900 font-bold' : 'text-stone-600 hover:bg-stone-100'}`}
                                 >
-                                    <ShieldCheck className="w-4 h-4 md:w-5 md:h-5" />
+                                    <ShieldCheck className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
                                     Security
                                 </button>
                             </nav>

@@ -16,15 +16,15 @@ const VoiceWidget: React.FC<VoiceWidgetProps> = ({ isOpen, onClose, api }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col relative">
+    <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col relative max-h-[92vh]">
 
         {/* Header */}
-        <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex justify-between items-center">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 bg-stone-50 border-b border-stone-100 flex justify-between items-center">
           <img
             src="https://placehold.co/140x40/transparent/d97706?text=J+Beauty+Studio&font=playfair-display"
             alt="J-Beauty"
-            className="h-8 w-auto object-contain"
+            className="h-7 sm:h-8 w-auto object-contain"
           />
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -32,14 +32,14 @@ const VoiceWidget: React.FC<VoiceWidgetProps> = ({ isOpen, onClose, api }) => {
           </div>
           <button
             onClick={onClose}
-            className="p-2 ml-2 rounded-full hover:bg-stone-200 text-stone-500 transition-colors"
+            className="p-1.5 sm:p-2 ml-2 rounded-full hover:bg-stone-200 text-stone-500 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 py-12 flex flex-col items-center justify-center bg-gradient-to-b from-white to-amber-50/50 min-h-[400px]">
+        <div className="flex-1 py-8 sm:py-12 flex flex-col items-center justify-center bg-gradient-to-b from-white to-amber-50/50 min-h-[320px] sm:min-h-[380px]">
 
           <div className="mb-8 text-center">
             <h3 className="text-2xl font-bold text-stone-800 mb-1">J Beauty Studio</h3>
