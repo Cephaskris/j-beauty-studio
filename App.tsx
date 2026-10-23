@@ -721,6 +721,44 @@ export default function App() {
     setIsWidgetOpen(false);
   };
 
+  // Ensure page always starts from the hero section when opened or refreshed
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    // Clear any initial hash so the browser doesn't automatically jump past the hero
+    if (window.location.hash && window.location.hash !== '#hero') {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+
+    const scrollToHero = () => {
+      window.scrollTo(0, 0);
+      const hero = document.getElementById('hero');
+      if (hero) {
+        hero.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }
+    };
+
+    scrollToHero();
+    requestAnimationFrame(scrollToHero);
+    const t1 = setTimeout(scrollToHero, 50);
+    const t2 = setTimeout(scrollToHero, 150);
+    const t3 = setTimeout(scrollToHero, 300);
+
+    const handlePageShow = () => {
+      scrollToHero();
+    };
+
+    window.addEventListener('pageshow', handlePageShow);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      window.removeEventListener('pageshow', handlePageShow);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen font-sans bg-stone-50 selection:bg-amber-500 selection:text-white scroll-smooth w-full overflow-x-hidden">
 
